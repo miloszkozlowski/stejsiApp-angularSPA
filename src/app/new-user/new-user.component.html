@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <h4>Twój nowy podopieczny</h4>
+        <p class="small text-justify">Dodaj nowego podopiecznego, aby mógł korzystać z aplikacji na telefon. Jeszcze zanim podopieczny zainstaluje aplikację możesz otwierać pakiety treningów i planować treningi. Będą widoczne i dostępne do korzystania dla podopiecznego od razu po zainstalowaniu aplikacji na telefon.</p>
+        <div class="alert alert-danger alert-dismissible fade show" *ngIf="occurredErrorMessage">
+            Błąd: <strong>{{ occurredErrorMessage }}</strong>
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="form-group">
+                <label for="name">
+                    Imię
+                </label>
+                <input
+                        class="form-control"
+                        [ngClass]="{
+                            'is-invalid' : name.touched && name.invalid,
+                            'is-valid' : name.touched && name.valid
+                            }"
+                        type="text"
+                        id="name"
+                        required
+                        maxlength="30"
+                        minlength="3"
+                        name="name"
+                        ngModel
+                        #name="ngModel"
+                >
+            </div>
+            <div class="form-group">
+                <label for="surname">
+                    Nazwisko
+                </label>
+                <input
+                        class="form-control"
+                        [ngClass]="{
+                            'is-invalid' : surname.touched && surname.invalid,
+                            'is-valid' : surname.touched && surname.valid
+                            }"
+                        type="text"
+                        id="surname"
+                        required
+                        maxlength="50"
+                        minlength="3"
+                        name="surname"
+                        ngModel
+                        #surname="ngModel"
+                >
+            </div>
+            <div class="form-group">
+                <label for="email">
+                    Adres e-mail
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend" style="width: 55px">
+                        <span class="input-group-text w-100 px-3">@</span>
+                    </div>
+                    <input
+                            class="form-control"
+                            [ngClass]="{
+                                'is-invalid' : email.touched && email.invalid,
+                                'is-valid' : email.touched && email.valid,
+                                'loading' : email.pending
+                                }"
+                            type="email"
+                            id="email"
+                            required
+                            email
+                            emailAvaliable
+                            name="email"
+                            ngModel
+                            #email="ngModel"
+                    >
+                </div>
+                <small class="form-text text-danger" *ngIf="email.touched && email.errors">
+                    <span *ngIf="email.errors.emailForbidden">Podany adres e-mail jest niedostępny do rejestracji. Już zarejestrowany?</span>
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="phone">
+                    Numer telefonu
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend" style="width: 55px">
+                        <span class="input-group-text w-100">+48</span>
+                    </div>
+                    <input
+                            class="form-control"
+                            [ngClass]="{
+                                'is-invalid' : phoneNumber.touched && phoneNumber.invalid,
+                                'is-valid' : phoneNumber.touched && phoneNumber.valid,
+                                'loading' : phoneNumber.pending
+                                }"
+                            type="email"
+                            id="phone"
+                            required
+                            maxlength="9"
+                            pattern="[5-8][0-9]{8}"
+                            phoneNumberAvaliable
+                            name="phoneNumber"
+                            ngModel
+                            #phoneNumber="ngModel"
+                    >
+                </div>
+                <small class="form-text text-danger" *ngIf="phoneNumber.touched && phoneNumber.errors">
+                    <span *ngIf="phoneNumber.errors.pattern">Numer telefonu musi być podany w formacie 9-ciu cyfr (np. 500500500).</span>
+                    <span *ngIf="phoneNumber.errors.phoneNumberForbidden">Podany numer telefonu jest niedostępny do rejestracji. Już zarejestrowany?</span>
+                </small>
+            </div>
+            <button type="submit" class="float-right btn btn-success" [disabled]="f.pending || f.invalid || isPosting">{{ isPosting ? 'Przetwarzanie' : 'Dodaj' }} <span *ngIf="isPosting" class="spinner-grow spinner-grow-sm" role="status"></span></button>
+        </form>
+    </div>
+</div>

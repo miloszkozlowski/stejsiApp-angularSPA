@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+        <h6>Nowa lokalizacja</h6>
+        <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="mb-4">
+            <div class="form-group">
+                <label for="name">Nazwa</label>
+                <input
+                        #name="ngModel"
+                        [ngClass]="{
+                                        'is-invalid' : name.touched && name.invalid,
+                                        'is-valid' : name.touched && name.valid
+                                        }"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        maxlength="30"
+                        ngModel
+                        placeholder="Siłownia &quot;Duży bic&quot;"
+                        required
+                        type="text"
+                >
+            </div>
+            <div class="form-group">
+                <label for="address">Adres</label>
+                <textarea
+                        #name="ngModel"
+                        class="form-control"
+                        id="address"
+                        name="postalAddress"
+                        required
+                        [ngClass]="{
+                                        'is-invalid' : postalAddress.touched && postalAddress.invalid,
+                                        'is-valid' : postalAddress.touched && postalAddress.valid
+                                        }"
+                        ngModel
+                        #postalAddress="ngModel"
+                        placeholder="ul. Białkowa 2, 02-200 Warszawa"
+                        rows="2"
+                        type="text"
+                ></textarea>
+            </div>
+            <div class="form-group form-check">
+                <input
+                        [value]="true"
+                        class="form-check-input"
+                        id="defaultLocation"
+                        name="defaultLocation"
+                        ngModel
+                        type="checkbox"
+                >
+                <label class="form-check-label" for="defaultLocation">Ustaw jako domyślną</label>
+                <button
+                        class="btn btn-success float-right"
+                        type="submit"
+                        [disabled]="f.invalid || isPosting"
+                >{{ isPosting ? 'Przetwarzanie' : 'Dodaj' }} <span *ngIf="isPosting" class="spinner-grow spinner-grow-sm" role="status"></span></button>
+                <a [routerLink]="['..']" class="btn btn-dark float-right mr-1" *ngIf="!isPosting">Anuluj</a>
+            </div>
+        </form>
+        <hr>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+<div *ngIf="isLoading" class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <app-loading-spinner-lg></app-loading-spinner-lg>
+    </div>
+</div>
+<div *ngIf="!isLoading && errorLoading" class="row">
+    <div class="col">
+        <div class="alert alert-danger" role="alert">
+            Nie udało się wykonać zadania ({{ errorLoading }})
+        </div>
+    </div>
+</div>
+<div *ngIf="loadedTip && !isLoading" class="row">
+    <div class="col">
+        <div class="card">
+            <img
+                    [alt]="loadedTip.heading"
+                    class="card-img-top"
+                    src="{{ loadedTip.imageUrl }}">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ loadedTip.heading }}
+                    <br><small class="text-muted">{{ loadedTip.whenCreated | date:'medium':undefined:'pl-PL'}}</small>
+                </h5>
+                <p class="card-text">{{ loadedTip.body}}</p>
+                <div class="btn-group mb-3">
+                    <button (click)="isActionMenuOpened = !isActionMenuOpened" class="btn btn-dark dropdown-toggle"
+                            style="cursor: pointer">Działania <span class="caret"></span></button>
+                    <ul (click)="isActionMenuOpened=false" (mouseleave)="isActionMenuOpened=false"
+                        [ngClass]="{show : isActionMenuOpened}" class="dropdown-menu">
+                        <li (click)="loadOnLine(loadedTip.id)" class="dropdown-item" style="cursor: pointer"><a>
+                            <fa-icon [icon]="faRedoAlt" class="mr-1"></fa-icon>
+                            Odśwież</a></li>
+                        <li class="dropdown-item" data-target="#alertModal" data-toggle="modal" style="cursor: pointer">
+                            <a>
+                                <fa-icon [icon]="faTrash" class="mr-1"></fa-icon>
+                                Usuń wpis</a></li>
+                        <li class="dropdown-item disabled" style="cursor: pointer"><a>
+                            <fa-icon [icon]="faEdit" class="mr-1"></fa-icon>
+                            Edytuj wpis</a></li>
+                        <li (click)="makeComment()" class="dropdown-item" style="cursor: pointer"><a>
+                            <fa-icon [icon]="faComment" class="mr-1"></fa-icon>
+                            Skomentuj</a></li>
+                    </ul>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div *ngFor="let comment of loadedTip.comments" class="list-group-item px-0">
+                        <div class="row justify-content-between ">
+                            <div class="w-100 align-items-end col-10 col-sm-11">
+                                <h5 class="mb-0">{{ comment.authorName }}</h5>
+                                <small class="text-muted ml-1">{{ comment.whenCreated | date:'medium':undefined:'pl-PL'}}</small>
+                                <p>{{ comment.body }}</p>
+                            </div>
+                            <div class="d-flex col-2 col-sm-1 justify-content-end align-items-center">
+                                <button class="btn btn-danger btn-sm" style="height: 30px">
+                                    <fa-icon [icon]="faTrash"></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div #newCommentDiv *ngIf="isMakingComment" class="list-group-item px-0">
+                        <form #newComment="ngForm" (ngSubmit)="submitNewComment(newComment)">
+                            <div class="form-group">
+                                <label for="newCommentInput">Komentarz trenera</label>
+                                <textarea #newCommentBody class="form-control" id="newCommentInput" name="body" ngModel
+                                          required rows=2></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-7 col-lg-9">
+                                    <small *ngIf="errorAddingComment" class="form-text text-danger">Nie udało się dodać
+                                        komenatarza. Spróbuj ponownie (details: {{ errorAddingComment.message }}
+                                        )</small>
+                                </div>
+                                <div class="col-7 col-md-5 col-lg-3">
+                                    <button [disabled]="!newComment.valid" class="btn btn-success float-right">
+                                        <span *ngIf="!isPostingComment">Opublikuj</span>
+                                        <span *ngIf="isPostingComment" class="spinner-grow spinner-grow-sm"
+                                              role="status"></span>
+                                        <span *ngIf="isPostingComment"> Publikowanie</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-alert
+        (confirmed)="onRemoveTip()"
+        [message]="loadedTip ? 'Usuwasz swój wpis &quot; ' + loadedTip.heading + '&quot;. Tak zrobić?' : '?'"
+        confirmBody="Usuń"
+        header="Usuwanie aktualności">
+</app-alert>
+

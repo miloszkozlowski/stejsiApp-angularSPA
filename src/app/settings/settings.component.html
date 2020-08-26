@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a
+                        class="nav-link"
+                        style="cursor:pointer;"
+                        routerLink="/ustawienia"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}"
+                >Ogólne</a>
+            </li>
+            <li class="nav-item">
+                <a
+                        class="nav-link"
+                        style="cursor:pointer;"
+                        routerLink="/ustawienia/lokalizacje"
+                        routerLinkActive="active"
+                >Lokalizacje</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

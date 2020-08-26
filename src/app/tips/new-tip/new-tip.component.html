@@ -1,0 +1,104 @@
+<div class="container">
+    <div class="row" *ngIf="addingTipError">
+        <div class="col">
+            <div class="alert alert-danger" role="alert">
+                Nie udało się dodać. Spróbuj ponownie ({{ addingTipError }})
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+            <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+                <div class="row justify-content-end mr-1">
+                    <button class="btn btn-success align-items-end"
+                            type="submit"
+                            [disabled]="isPosting || !f.valid || (!uploadedImageUrl && currentImageUrl === '') || currentImageUrl === 'assets/unknown.svg'">
+                        <span *ngIf="!isPosting">Opublikuj</span>
+                        <span *ngIf="isPosting" class="spinner-grow spinner-grow-sm" role="status"></span>
+                        <span *ngIf="isPosting"> Publikowanie</span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label for="heading">Nagłówek</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text justify-content-center" style="width: 40px">a</span>
+                        </div>
+                    <input
+                            type="text"
+                            placeholder="Podaj nagłówek aktualności"
+                            id="heading"
+                            class="form-control"
+                            [ngClass]="{
+                                    'is-invalid' : headingField.touched && headingField.invalid,
+                                    'is-valid' : headingField.touched && headingField.valid
+                                    }"
+                            required
+                            ngModel
+                            name="heading"
+                            #headingField="ngModel"
+                    >
+                    </div>
+                    <small class="form-text text-danger" *ngIf="!headingField.valid && headingField.touched">Aktualność musi mieć nagłówek</small>
+                </div>
+                <div class="form-group">
+                    <label for="body">Treść</label>
+                    <textarea
+                            rows=5
+                            placeholder="Zapodaj treść aktualności"
+                            id="body"
+                            class="form-control"
+                            [ngClass]="{
+                                    'is-invalid' : headingField.touched && headingField.invalid,
+                                    'is-valid' : headingField.touched && headingField.valid
+                                    }"
+                            required
+                            ngModel
+                            name="body"
+                            #bodyField="ngModel"
+                    ></textarea>
+                    <small class="form-text text-danger" *ngIf="!bodyField.valid && bodyField.touched">Aktualność musi zawierać treść</small>
+                </div>
+                <div class="form-group">
+                    <label for="imageUrl">Zdjęcie</label>
+                    <div class="input-group" *ngIf="!uploadedImageUrl">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text justify-content-center" style="width: 40px"><fa-icon [icon]="faGlobe"></fa-icon></span>
+                        </div>
+                       <input type="text" placeholder="https://" id="imageUrl" class="form-control" ngModel name="imageUrl" (input)="onImageUrlLeft()">
+                        <div class="input-group-append" *ngIf="currentImageUrl === 'assets/unknown.svg'">
+                            <button class="btn btn-outline-secondary" type="button" (click)="resetImgUrl()"><fa-icon [icon]="faTimes"></fa-icon></button>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-10 align-items-start ml-1" *ngIf="currentImageUrl === 'assets/unknown.svg'">
+                            <small class="form-text text-danger">Z tym zdjęciem jest coś nie tak</small>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <img alt="Loaded external tip image" [src]="currentImageUrl" *ngIf="currentImageUrl" class="img-thumbnail" style="max-height: 100px" (error)="currentImageUrl = 'assets/unknown.svg'">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3 mt-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text justify-content-center" style="width: 40px"><fa-icon [icon]="faLaptop"></fa-icon></span>
+                        </div>
+                        <div class="custom-file" *ngIf="currentImageUrl === ''">
+                            <input type="file" accept="image/*" id="uploadedImage" class="custom-file-input" ngModel name="uploadedImage" #uploadedImageField (change)="previewUploadedImage(uploadedImageField.files)">
+                            <label class="custom-file-label" for="uploadedImage" data-browse="Przeglądaj">Wybierz plik z dysku</label>
+                        </div>
+                        <div class="input-group-append" *ngIf="uploadedImageUrl">
+                            <button class="btn btn-outline-secondary" type="button" (click)="uploadedImageUrl = null"><fa-icon [icon]="faTimes"></fa-icon></button>
+                        </div>
+                    </div>
+                    <small class="form-text text-danger" *ngIf="uploadImageValidationMessage">{{ uploadImageValidationMessage }}</small>
+                    <div class="row justify-content-end m-1">
+                        <img alt="Loaded local tip image" [src]="uploadedImageUrl" *ngIf="uploadedImageUrl" class="img-thumbnail" style="max-height: 100px" (error)="currentImageUrl = 'assets/unknown.svg'">
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+    <hr>
+</div>

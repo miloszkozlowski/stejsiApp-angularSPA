@@ -1,0 +1,158 @@
+<div class="row mb-3">
+    <div class="col-12 col-md-6">
+        <h6>Nowa oferta</h6>
+        <p class="small text-justify">Dodaj nową ofertę dla swoich podopiecznych. Oferta uwzględnia ilość treningów, czas ich trwania, a także jak długo pakiet jest ważny od momentu jego otwarcia. Każdy pakiet ma także swoją cenę, która jest widoczna dla Twoich klientów.</p>
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="form-group">
+                <label for="title">
+                    Nazwa
+                </label>
+                <input
+                        class="form-control"
+                        [ngClass]="{
+                                    'is-invalid' : title.touched && title.invalid,
+                                    'is-valid' : title.touched && title.valid
+                                    }"
+                        type="text"
+                        id="title"
+                        required
+                        maxlength="30"
+                        name="title"
+                        placeholder="Chwytliwa nazwa"
+                        ngModel
+                        #title="ngModel"
+                >
+            </div>
+            <div class="form-group">
+                <label for="desc">Opis dla podopiecznych</label>
+                <textarea
+                        class="form-control"
+                        [ngClass]="{
+                                    'is-invalid' : description.touched && description.invalid,
+                                    'is-valid' : description.touched && description.valid
+                                    }"
+                        id="desc"
+                        required
+                        name="description"
+                        placeholder="Ciekawy opis, który będzie widoczny dla podopiecznych"
+                        ngModel
+                        rows="4"
+                        #description="ngModel"
+                ></textarea>
+            </div>
+            <div class="form-group">
+                <label for="amount">Treningi</label>
+                <div class="row">
+                    <div class="col-5">
+                        <input
+                                class="form-control"
+                                type="number"
+                                inputmode="numeric"
+                                placeholder="Ilość"
+                                min="1"
+                                minNumber="1"
+                                [ngClass]="{
+                                    'is-invalid' : amount.touched && amount.invalid,
+                                    'is-valid' : amount.touched && amount.valid
+                                    }"
+                                id="amount"
+                                required
+                                name="amount"
+                                ngModel
+                                #amount="ngModel"
+                        >
+                    </div>
+                    <div class="col-7">
+                        <div class="input-group">
+                            <input
+                                    class="form-control"
+                                    type="number"
+                                    inputmode="numeric"
+                                    placeholder="Czas trwania"
+                                    min="10"
+                                    minNumber="10"
+                                    [ngClass]="{
+                                        'is-invalid' : length.touched && length.invalid,
+                                        'is-valid' : length.touched && length.valid
+                                    }"
+                                    id="length"
+                                    required
+                                    name="length"
+                                    ngModel
+                                    #length="ngModel"
+                            >
+                            <div class="input-group-append">
+                                <span class="input-group-text">min.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="price">Ważność i cena</label>
+                <div class="row">
+                    <div class="col-5">
+                        <div class="input-group">
+                            <input
+                                    class="form-control"
+                                    type="number"
+                                    inputmode="numeric"
+                                    placeholder="Ważny"
+                                    min="0"
+                                    minNumber="0"
+                                    [ngClass]="{
+                                        'is-invalid' : validity.touched && validity.invalid,
+                                        'is-valid' : validity.touched && validity.valid
+                                    }"
+                                    id="validity"
+                                    required
+                                    name="validity"
+                                    ngModel
+                                    #validity="ngModel"
+                            >
+                            <div class="input-group-append">
+                                <span class="input-group-text">dni</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div class="input-group">
+                            <input
+                                    class="form-control"
+                                    type="number"
+                                    inputmode="numeric"
+                                    placeholder="Cena"
+                                    min="0.00"
+                                    step="0.01"
+                                    minNumber="0"
+                                    [ngClass]="{
+                                        'is-invalid' : price.touched && price.invalid,
+                                        'is-valid' : price.touched && price.valid
+                                        }"
+                                    id="price"
+                                    required
+                                    name="pricePLN"
+                                    ngModel
+                                    #price="ngModel"
+                            >
+                            <div class="input-group-append">
+                                <span class="input-group-text">PLN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <small class="form-text">Wpisz "0" w pole ważności, aby uczynić pakiet ważnym bezterminowo.</small>
+            </div>
+            <button type="submit" class="float-right btn btn-success ml-1" [disabled]="isPosting || f.invalid">{{ isPosting ? 'Przetwarzanie' : 'Dodaj' }} <span *ngIf="isPosting" class="spinner-grow spinner-grow-sm" role="status"></span></button>
+            <button class="btn btn-dark float-right" type="button" (click)="onCancelForm()" *ngIf="!f.dirty">Wróć</button>
+            <button class="btn btn-dark float-right" type="button" data-toggle="modal" data-target="#alertModal" *ngIf="f.dirty">Wyjdź</button>
+        </form>
+        <hr>
+    </div>
+</div>
+<app-alert
+        header="Zamykanie formularza"
+        [message]="'Dodawanie nowego pakietu nie jest zakończone. Wyjść bez zapisywania?'"
+        confirmBody="Wyjdź"
+        (confirmed)="onCancelForm()">
+</app-alert>

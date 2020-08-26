@@ -1,0 +1,24 @@
+<div class="card my-1">
+    <div class="card-header pr-0">
+        {{ packageType.amountOfTrainings }} x {{ packageType.lengthMinutes }}min. ważny {{ packageType.daysValid === 0 ? 'bezterminowo' : packageType.daysValid + ' dni' }}
+        <div class="float-right dropleft" *ngIf="!isLoading">
+            <a data-toggle="dropdown" class="px-3" style="cursor: pointer"><fa-icon [icon]="faEllipsisV"></fa-icon></a>
+            <div class="dropdown-menu">
+                <h6 class="dropdown-header">Działania</h6>
+                <a class="dropdown-item" data-toggle="modal" href="#mod{{packageType.id}}" style="cursor: pointer"><fa-icon [icon]="faTrash" class="mr-1"></fa-icon> Usuń</a>
+            </div>
+        </div>
+        <app-loading-spinner *ngIf="isLoading" class="float-right mr-3"></app-loading-spinner>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ packageType.title }} <small class="float-right">PLN {{ packageType.pricePLN }}</small> </h5>
+        <p class="card-text">{{ packageType.description }}</p>
+    </div>
+</div>
+<app-alert
+        [modal]="'mod' + packageType.id"
+        header="Usuwanie pakietu"
+        [message]="'Usuwasz pakiet treninigów: &quot;' + packageType.title + '&quot;. Zniknie on z listy, ale wszystkie otwarte pakiety tego typu pozostaną niezmienione. Kontynuować?'"
+        confirmBody="Tak, usuń"
+        (confirmed)="onRemove()">
+</app-alert>

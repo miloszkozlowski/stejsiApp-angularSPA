@@ -1,0 +1,7 @@
+.loading {
+    background-color: #ffffff;
+    background-image: url("src/assets/loading-balls.gif");
+    background-size: 30px 30px;
+    background-position:right center;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,22 @@
+<a
+        style="cursor: pointer"
+        class="list-group-item list-group-item-action"
+        [routerLink]="[tip.id]"
+        routerLinkActive="active">
+    <div class="row">
+        <div class="col-8 align-content-between">
+            <h5 class="mb-0">{{ tip.heading }}</h5>
+            <small class="mb-1">{{ tip.whenCreated | date:'medium':undefined:'pl-PL' }}</small>
+            <p><small>Odbiorców: {{ tip.amountUserRead }} | Komentarzy: {{ tip.comments.length }}</small></p>
+        </div>
+        <div class="col-4 p-0 align-content-between justify-content-end d-flex">
+            <img
+                    [src] = "tipThumbUrl"
+                    alt="{{ tip.heading }}"
+                    class="img-fluid align-self-start"
+                    style="max-width: 100px"
+                     />
+        </div>
+    </div>
+</a>
+

@@ -1,0 +1,41 @@
+<div class="container-fluid h-auto">
+    <div class="row">
+        <div class="col-xs-4 justify-content-end w-100 d-flex mr-lg-0 mr-md-2 mr-sm-2 mr-1 mt-2 mt-lg-0">
+            <button class="btn btn-success" [routerLink]="['nowa']" *ngIf="isButtonNewVisible">Dodaj aktualność</button>
+            <button class="btn btn-dark ml-1" (click)="reloadTips()" disabled>Powiadom telefony</button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid scrollable mt-2 h-auto" #tipScrollingList (scroll)="onScroll()" [style.height.px]="scrollableHeight">
+    <div class="row">
+        <div class="col-xs-12 list-group d-flex w-100">
+            <app-tips-list-item class=""
+                    *ngFor="let tip of tips"
+                    [tip]="tip">
+            </app-tips-list-item>
+        </div>
+    </div>
+    <div class="row" *ngIf="isLoading">
+        <div class="col-12 d-flex justify-content-center">
+            <app-loading-spinner-lg></app-loading-spinner-lg>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isLoading && lastError">
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+                Nie można załadować ({{ lastError.message }})
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isLoading && lastError">
+        <div class="col-12 d-flex justify-content-center p-1">
+            <button type="button" (click)="loadTips()" class="btn btn-dark" [disabled]="false"><fa-icon [icon]="faRedoAlt"></fa-icon></button>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isLoading && currentPage">
+        <div class="col-12 d-flex justify-content-center p-1" *ngIf="!currentPage.last">
+            <button type="button" (click)="loadTips()" class="btn btn-sm btn-dark my-2" [disabled]="false">Pokaż starsze</button>
+        </div>
+    </div>
+    <hr>
+</div>

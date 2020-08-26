@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" *ngIf="infoMessage">
+            {{ infoMessage }}
+            <button type="button" class="close" data-dismiss="alert" (click)="infoMessage = null">
+                <span>&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="errorMessage">
+            <div [innerHTML]="errorMessage"></div>
+            <button type="button" class="close" data-dismiss="alert" (click)="errorMessage = null">
+                <span>&times;</span>
+            </button>
+        </div>
+        <div class="text-center" *ngIf="isLoading">
+            <app-loading-spinner-lg class="mx-auto"></app-loading-spinner-lg>
+        </div>
+        <div class="text-center" *ngIf="!isLoading && !settingsLoaded">
+            <button class="btn">
+                <fa-icon [icon]="faSyncAlt" (click)="tryAgain()"></fa-icon>
+            </button>
+        </div>
+        <form *ngIf="!isLoading && settingsLoaded" #f="ngForm" (ngSubmit)="onSubmit(f)">
+            <h4 class="form-text mb-4 mt-2">Dane trenera
+                <button type="submit" class="btn btn-success float-right" [disabled]="!f.dirty || !f.valid">Zapisz</button>
+            </h4>
+            <span class="badge badge-pill badge-warning float-right" *ngIf="f.dirty">Nie zapisane</span>
+            <div class="row">
+                <div class="col-12 col-md-9 col-lg-7">
+                    <div class="form-group row">
+                        <label for="trainerEmail" class="col-form-label col-12 col-sm-4 col-md-3">Adres e-mail:</label>
+                        <div class="col-12 col-sm-8 col-md-9">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text w-100 px-3">@</span>
+                                </div>
+                                <input
+                                        class="form-control"
+                                        [ngClass]="{
+                                            'is-invalid' : trainerEmail.touched && trainerEmail.invalid,
+                                            'is-valid' : trainerEmail.touched && trainerEmail.valid
+                                            }"
+                                        type="email"
+                                        id="trainerEmail"
+                                        email
+                                        name="trainerEmail"
+                                        [ngModel]="formTrainerEmail"
+                                        #trainerEmail="ngModel"
+                                >
+                            </div>
+                            <small class="form-text">Podaj adres e-mail, aby otrzymywać powiadomienia o nowych komentarzach i&nbsp;odwołanych treningach.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <small class="text-muted" *ngIf="settingsLoaded">Ostatnia aktualizacja: {{ !lastUpdated ? 'nigdy' : lastUpdated | date:'medium':undefined:'pl-PL'}}</small>
+        </form>
+    </div>
+</div>
