@@ -6,7 +6,7 @@ import {switchMap} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 @Directive({
-    selector: '[phoneNumberAvaliable]',
+    selector: '[phoneNumberAvailable]',
     providers: [{provide: NG_ASYNC_VALIDATORS, useExisting: UserPhoneNumberValidator, multi: true}]
 })
 export class UserPhoneNumberValidator implements AsyncValidator {

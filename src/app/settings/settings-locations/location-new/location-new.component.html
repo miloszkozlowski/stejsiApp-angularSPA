@@ -39,24 +39,29 @@
                         type="text"
                 ></textarea>
             </div>
-            <div class="form-group form-check">
+            <div class="custom-control custom-switch">
                 <input
-                        [value]="true"
-                        class="form-check-input"
+                        type="checkbox"
+                        class="custom-control-input"
                         id="defaultLocation"
                         name="defaultLocation"
                         ngModel
-                        type="checkbox"
+                        [value]="true"
                 >
-                <label class="form-check-label" for="defaultLocation">Ustaw jako domyślną</label>
+                <label class="custom-control-label" for="defaultLocation">Ustaw jako domyślną</label>
                 <button
                         class="btn btn-success float-right"
                         type="submit"
                         [disabled]="f.invalid || isPosting"
                 >{{ isPosting ? 'Przetwarzanie' : 'Dodaj' }} <span *ngIf="isPosting" class="spinner-grow spinner-grow-sm" role="status"></span></button>
                 <a [routerLink]="['..']" class="btn btn-dark float-right mr-1" *ngIf="!isPosting">Anuluj</a>
+
             </div>
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-6">
         <hr>
     </div>
 </div>

@@ -1,0 +1,23 @@
+.calendar-text {
+    font-size: 0.7rem;
+}
+.calendar-text-bold {
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+.calendar-box {
+    background-color: #545454;
+    cursor: pointer;
+}
+.calendar-box:hover {
+    background-color: #bbcedd;
+}
+
+.very-small {
+    font-size: 8px;
+}
+
+.very-small-bold {
+    font-size: 8px;
+    font-weight: bold;
+}

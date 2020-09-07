@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OfferService} from '../../services/offer.service';
 import {PackageTypeModel} from '../../models/package-type.model';
 import {faSyncAlt} from '@fortawesome/free-solid-svg-icons/faSyncAlt';
-import {HttpService} from '../../services/http.service';
 
 @Component({
     selector: 'app-offer-list',
@@ -18,8 +17,7 @@ export class OfferListComponent implements OnInit, OnDestroy {
     faSyncAlt = faSyncAlt;
 
     constructor(
-        private service: OfferService,
-        private httpService: HttpService
+        private service: OfferService
     ) {}
 
     ngOnInit() {

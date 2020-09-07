@@ -1,13 +1,23 @@
 <div class="row">
-    <div class="col-12 col-md-6 offset-md-3">
-        <h4>Twój nowy podopieczny</h4>
-        <p class="small text-justify">Dodaj nowego podopiecznego, aby mógł korzystać z aplikacji na telefon. Jeszcze zanim podopieczny zainstaluje aplikację możesz otwierać pakiety treningów i planować treningi. Będą widoczne i dostępne do korzystania dla podopiecznego od razu po zainstalowaniu aplikacji na telefon.</p>
-        <div class="alert alert-danger alert-dismissible fade show" *ngIf="occurredErrorMessage">
-            Błąd: <strong>{{ occurredErrorMessage }}</strong>
+    <div class="col-12">
+        <div class="alert alert-danger alert-dismissible fade show" *ngIf="errorMessage">
+            Błąd: <strong>{{ errorMessage }}</strong>
             <button type="button" class="close" data-dismiss="alert">
                 <span>&times;</span>
             </button>
         </div>
+        <div class="alert alert-warning alert-dismissible fade show" *ngIf="infoMessage">
+            {{ infoMessage }} <a *ngIf="addedUser" [routerLink]="['/podopieczni', addedUser.name + '-' + addedUser.surname]">Zobacz</a>
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+        <h4>Twój nowy podopieczny</h4>
+        <p class="small text-justify">Dodaj nowego podopiecznego, aby mógł korzystać z aplikacji na telefon. Jeszcze zanim podopieczny zainstaluje aplikację możesz otwierać pakiety treningów i planować treningi. Będą widoczne i dostępne do korzystania dla podopiecznego od razu po zainstalowaniu aplikacji na telefon.</p>
         <form (ngSubmit)="onSubmit(f)" #f="ngForm">
             <div class="form-group">
                 <label for="name">
@@ -68,7 +78,7 @@
                             id="email"
                             required
                             email
-                            emailAvaliable
+                            emailAvailable
                             name="email"
                             ngModel
                             #email="ngModel"
@@ -98,7 +108,7 @@
                             required
                             maxlength="9"
                             pattern="[5-8][0-9]{8}"
-                            phoneNumberAvaliable
+                            phoneNumberAvailable
                             name="phoneNumber"
                             ngModel
                             #phoneNumber="ngModel"

@@ -57,6 +57,9 @@ export class NewTipComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(submitedForm: NgForm) {
+    if (submitedForm.invalid) {
+      return;
+    }
     const writeObject = {
       'heading': submitedForm.form.value['heading'],
       'body': submitedForm.form.value['body'],

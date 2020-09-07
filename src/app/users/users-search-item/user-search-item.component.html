@@ -1,0 +1,13 @@
+<div
+        class="card"
+        [ngClass]="{'bg-secondary': !user.active}"
+>
+    <div class="card-body">
+        <h5 class="card-title"><a [routerLink]="['/podopieczni', user.id, user.name + '-' + user.surname]" class="stretched-link text-dark" (click)="onSelectedUser()">
+            {{ user.name }} {{ user.surname }}
+        </a></h5>
+        <h6 class="card-subtitle">
+            {{ user.rankReadable }}
+        </h6>
+    </div>
+</div>

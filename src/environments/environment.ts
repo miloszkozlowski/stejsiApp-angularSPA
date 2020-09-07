@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverPath: 'http://192.168.0.96:8080/ngaccess'
+  serverPath: 'http://192.168.1.51:8080/ngaccess'
 };
 
 /*

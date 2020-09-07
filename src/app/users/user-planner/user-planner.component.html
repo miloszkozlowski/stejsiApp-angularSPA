@@ -1,0 +1,79 @@
+<div class="row my-1 mx-0 mx-md-1">
+    <hr>
+    <div class="col-12">
+        <div *ngIf="!packageToBePlanned" class="alert alert-dark text-justify mt-1">
+            Nie ma żadnego otwartego pakietu. <a (click)="onGoToNewPackage()" class="alert-link"
+                                                 style="cursor: pointer">Otwórz nowy</a>
+        </div>
+        <div *ngIf="packageToBePlanned" class="row pt-1 pt-md-2 px-0 px-md-1 rounded" style="background-color: #efeff3">
+            <div class="col-12 col-md-5 mb-2 px-4 px-md-3">
+                <div class="row">
+                    <div class="col-12 p-0 p-md-1">
+                        <h6 class="mb-0">
+                            <div *ngIf="user.activePackages.length > 1" class="btn-group dropright">
+                                <button
+                                        class="btn btn-sm btn-dark dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        type="button"
+                                >
+                                    <fa-icon [icon]="faDumbbell"></fa-icon>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a (click)="loadPackageToPlan(p)" *ngFor="let p of activePackages"
+                                       class="dropdown-item" style="cursor: pointer">{{ p.packageType.title }}
+                                        ({{ packService.getPlannedTrainings(p).length }}/{{ p.packageType.amountOfTrainings }})</a>
+                                </div>
+                            </div>
+                            <fa-icon *ngIf="user.activePackages.length === 1" [icon]="faDumbbell"></fa-icon>
+                            <a (click)="trainingToPlan = null" style="cursor: pointer"> {{ packageToBePlanned.packageType.title }}</a>
+                            <small>
+                                (utworzony {{ packageToBePlanned.whenCreated | date:'medium':undefined:'pl-PL'}})
+                            </small>
+                        </h6>
+                    </div>
+                    <div class="col-12 p-0 p-md-1">
+                        <small>
+                            <ul class="list-inline text">
+                                <li class="list-inline-item">
+                                    Treningi zaplanowane: {{ plannedTrainings.length }},
+                                </li>
+                                <li class="list-inline-item">
+                                    do zaplanowania: {{ unPlannedTrainings.length }}
+                                </li>
+                            </ul>
+                        </small>
+                    </div>
+                    <div class="col-12 p-0 p-md-1">
+                        <p><small class="text-muted text-justify" *ngIf="unPlannedTrainings.length > 0 && trainingToPlan">Wybierz datę z kalendarza, a następnie zaplanuj trening wybierając godzinę i lokalizację. Podopieczny otrzyma powiadomienie na swój smartfon w ciągu maksymaknie 15 minut.</small></p>
+                        <p><small class="text-muted text-justify" *ngIf="editMode && trainingToPlan">Edytujesz wcześniej zaplanowany trening. Po zapisaniu zmian powiadomienie zostanie wysłane do podopiecznego ponownie.</small></p>
+                        <button (click)="planNextTraining()" *ngIf="unPlannedTrainings.length > 0 && !trainingToPlan" class="btn btn-dark" type="button">
+                            Zaplanuj trening
+                        </button>
+                        <button (click)="onClosePackage()" *ngIf="isReadyToBeClosed" class="btn btn-success" type="button" [disabled]="isPosting">
+                            Zamknij pakiet <span class="spinner-grow spinner-grow-sm" *ngIf="isPosting"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-7">
+                <div class="row">
+                    <div class="col-12 p-0 p-md-1">
+                        <app-user-training-list
+                                *ngIf="!trainingToPlan"
+                                [package]="packageToBePlanned"
+                                [editable]="true"
+                                (packageUpdated)="reloadTrainingsInPackage()"
+                                (trainingToEdit)="onTrainingEdit($event)"
+                        ></app-user-training-list>
+                        <app-user-calendar
+                                *ngIf="trainingToPlan"
+                                [training]="trainingToPlan"
+                                [user]="user"
+                                (packageUpdated)="reloadTrainingsInPackage()"
+                        ></app-user-calendar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

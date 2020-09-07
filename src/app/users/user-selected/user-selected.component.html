@@ -1,0 +1,150 @@
+<div class="row mb-3">
+    <div class="col-12 text-center" *ngIf="isLoading">
+        <app-loading-spinner-lg></app-loading-spinner-lg>
+    </div>
+    <div class="col-12">
+        <div class="card" *ngIf="!isLoading">
+            <div class="card-body">
+                <button class="btn btn-dark float-right" data-toggle="dropdown"><fa-icon [icon]="faBars"></fa-icon></button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item d-flex justify-content-between" (click)="onActionChosen('')" style="cursor: pointer">
+                        Informacje
+                        <fa-icon [fixedWidth]="true" [icon]="faInfo" class="ml-2"></fa-icon>
+                    </a>
+                    <a class="dropdown-item d-flex justify-content-between" (click)="onActionChosen('newPackage')" style="cursor: pointer">
+                        Nowy pakiet
+                        <fa-icon [fixedWidth]="true" [icon]="faDumbbell" class="ml-2"></fa-icon>
+                    </a>
+                    <a class="dropdown-item d-flex justify-content-between" (click)="onActionChosen('packages')" style="cursor: pointer">
+                        Wszystkie pakiety
+                        <fa-icon [fixedWidth]="true" [icon]="faListOl" class="ml-2"></fa-icon>
+                    </a>
+                    <a class="dropdown-item d-flex justify-content-between" (click)="onActionChosen('plan')" style="cursor: pointer">
+                        Planuj treningi
+                        <fa-icon [fixedWidth]="true" [icon]="faCalendarAlt" class="ml-2"></fa-icon>
+                    </a>
+                </div>
+                <h4 class="card-title">{{ selectedUser.name }} {{ selectedUser.surname }}</h4>
+                <h6 class="card-subtitle">
+                    <span class="align-bottom mr-2">{{ selectedUser.rankReadable }}</span>
+                    <span class="badge badge-pill badge-secondary" *ngIf="!selectedUser.active">Bez aplikacji</span>
+                    <span class="badge badge-pill badge-success" *ngIf="selectedUser.active">Aplikacja aktywna</span>
+                </h6>
+                <div class="row mx-0">
+                    <div class="col-12 col-md-6 mt-1">
+                        <div class="row mb-1">
+                            <small>
+                                <fa-icon [icon]="faEnvelope"></fa-icon>
+                                <span class="align-bottom ml-1 text-muted">{{ selectedUser.email }}</span>
+                            </small>
+                        </div>
+                        <div class="row">
+                            <small>
+                                <fa-icon [icon]="faPhone"></fa-icon>
+                                <a class="align-bottom ml-1 text-muted" [href]="'tel:' + selectedUser.phoneNumber">{{ selectedUser.phoneNumber }}</a>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 mt-2 mt-md-0 px-0">
+                        <div *ngIf="!action">
+                            <div class="row">
+                                <div class="col-9 col-md-8 col-lg-6 offset-md-1 offset-lg-3">
+                                    <h6>Informacje</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-9 col-md-8 col-lg-6 offset-md-1 offset-lg-3">
+                                    Aktywne pakiety:
+                                </div>
+                                <div class="col-3">
+                                    <strong>{{ selectedUser.activePackages.length }}</strong>
+                                </div>
+                                <div class="col-9 col-md-8 col-lg-6 offset-md-1 offset-lg-3">
+                                    Ost. średnia trening/tydzień:
+                                </div>
+                                <div class="col-3">
+                                    <strong>{{ selectedUser.lastFourWeeksAvgTrainingsDone }}</strong>
+                                </div>
+                                <div class="col-9 col-md-8 col-lg-6 offset-md-1 offset-lg-3">
+                                    Odbytych treningów:
+                                </div>
+                                <div class="col-3">
+                                    <strong>{{ selectedUser.totalTrainingsDone }}</strong>
+                                </div>
+                                <div class="col-9 col-md-8 col-lg-6 offset-md-1 offset-lg-3">
+                                    Treningi bez potwierdzenia:
+                                </div>
+                                <div class="col-3">
+                                    <strong>{{ selectedUser.unconfirmedTrainings }}</strong>
+                                </div>
+                                <div class="col-9 col-md-8 col-lg-6 offset-md-1 offset-lg-3">
+                                    Komentarzy do aktualności:
+                                </div>
+                                <div class="col-3">
+                                    <strong>{{ selectedUser.tipComments.length }}</strong>
+                                </div>
+                                <div class="col-9 col-md-8 col-lg-6 offset-md-1 offset-lg-3">
+                                    Punkty klasyfikacji:
+                                </div>
+                                <div class="col-3">
+                                    <strong>{{ selectedUser.progressPoints }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="isLoadingDetails">
+                            <div class="col-12 text-center">
+                                <app-loading-spinner-lg></app-loading-spinner-lg>
+                            </div>
+                        </div>
+                        <app-user-all-packages
+                                *ngIf="action === 'packages'"
+                                [user]="selectedUser"
+                        ></app-user-all-packages>
+                        <div *ngIf="action === 'newPackage' && !isLoadingDetails">
+                            <div class="alert alert-dark text-justify">Nowy pakiet będzie widoczny dla Twojego podopiecznego. Po zatwierdzeniu, będzie można polanować treningi w kalendarzu.</div>
+                            <form
+                                    *ngIf="availablePackagesTypes"
+                                    #f="ngForm"
+                                    (ngSubmit)="onNewPackage(f)">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <fa-icon [icon]="faDumbbell"></fa-icon>
+                                            </span>
+                                    </div>
+                                    <select
+                                            class="custom-select"
+                                            id="newPackage"
+                                            name="typeId"
+                                            ngModel
+                                            required
+                                    >
+                                        <option
+                                                *ngFor="let pack of availablePackagesTypes"
+                                                [value]="pack.id"
+                                        >
+                                            {{pack.title + ' (PLN ' + pack.pricePLN + ')'}}
+                                        </option>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button
+                                                class="btn btn-success"
+                                                type="submit"
+                                                [disabled]="f.invalid"
+                                        >
+                                            <fa-icon [icon]="faCheckCircle"></fa-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0 px-0 px-md-1">
+                <app-user-planner [user]="selectedUser" (actionTo)="onActionChosen($event)" *ngIf="action === 'plan'"></app-user-planner>
+            </div>
+
+        </div>
+    </div>
+</div>

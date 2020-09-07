@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import {PackageTypeModel} from '../../models/package-type.model';
 import {faEllipsisV} from '@fortawesome/free-solid-svg-icons/faEllipsisV';
 import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash';

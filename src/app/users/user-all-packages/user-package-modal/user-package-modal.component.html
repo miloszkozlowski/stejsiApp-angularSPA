@@ -1,0 +1,58 @@
+<div class="modal fade" id="packageModal" tabindex="-1" #packageModal>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> {{ selectedPack.packageType.title }}</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body justify-content-between d-flex pb-1">
+                <span>Opłacony</span>
+                <app-loading-spinner *ngIf="isPaymentLoading"></app-loading-spinner>
+                <div class="custom-control custom-switch" *ngIf="!isPaymentLoading">
+                    <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            id="packagePaid"
+                            [checked]="selectedPack.paid"
+                            [disabled]="selectedPack.paid"
+                            (change)="onPaidConfirmed($event)"
+                    >
+                    <label class="custom-control-label" for="packagePaid">{{ selectedPack.paid ? 'tak' : 'nie' }}</label>
+                </div>
+            </div>
+            <small class="text-muted mx-3 mt-0 mb-1 text-justify" *ngIf="!selectedPack.paid">Koszt pakietu to PLN {{ selectedPack.packageType.pricePLN }}. Jeżeli pakiet został opłacony przez podopiecznego, potwierdź to tutaj. Podopieczny będzie miał informację o statusie płatności w aplikacji. Tej czynności nie możesz cofnąć.</small>
+            <div class="row justify-content-between d-flex mx-3 mb-1">
+                <span>Utworzony:</span><span class="text-muted">{{ selectedPack.whenCreated | date:'medium':undefined:'pl-PL'}}</span>
+            </div>
+            <div class="row justify-content-between d-flex mx-3 mb-1">
+                <span>Ważność:</span><span class="text-muted">{{ selectedPack.validInfinitely ? 'bezterminowo' : !selectedPack.valid ? 'przeterminowany' : selectedPack.validityDays === 1 ? '1 dzień' : selectedPack.validityDays + ' dni' }}</span>
+            </div>
+            <div class="row justify-content-between d-flex mx-3 mb-1">
+                <span>Treningi zaplanowane:</span><span class="text-muted">{{ plannedTrainings.length }}</span>
+            </div>
+            <div class="row justify-content-between d-flex mx-3 mb-1">
+                <span>Treningi do zaplanowania:</span><span class="text-muted">{{ unplannedTrainings.length }}</span>
+            </div>
+            <div class="row">
+                <div class="col-12 mx-3 mt-2 pr-5">
+                    <app-user-training-list
+                            [package]="selectedPack"
+                            [editable]="false"
+                    ></app-user-training-list>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                        class="btn btn-dark"
+                        *ngIf="isReadyToBeClosed"
+                        (click)="onClosePackage()"
+                >Zamknij pakiet
+                    <span class="spinner-grow spinner-grow-sm" *ngIf="isClosing"></span>
+                </button>
+                <small class="form-text" *ngIf="infoMessage">{{ infoMessage }}</small>
+            </div>
+        </div>
+    </div>
+</div>

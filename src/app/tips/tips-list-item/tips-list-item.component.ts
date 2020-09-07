@@ -12,8 +12,6 @@ export class TipsListItemComponent implements OnInit {
   @Input() tip: TipModel;
   tipThumbUrl: string;
 
-  constructor(private service: TipService) {}
-
   ngOnInit(): void {
     this.tipThumbUrl = environment.serverPath + '/tips/thumb/' + this.tip.id;
   }

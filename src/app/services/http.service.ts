@@ -16,6 +16,9 @@ export class HttpService {
         if (errorResp.error) {
             if(errorResp.error.errorMsg) {
                 switch (errorResp.error.errorMsg) {
+                    case 'CALENDAR_CONFLICT':
+                        errorMsg = 'Wybrany termin koliduje z innym w kalendarzu';
+                        break;
                     case 'VALID_ERROR':
                         errorMsg = 'Formularz zawiera niepoprawne dane';
                         break;

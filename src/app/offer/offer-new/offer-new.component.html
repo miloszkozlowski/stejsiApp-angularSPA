@@ -1,5 +1,5 @@
 <div class="row mb-3">
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-8 offset-md-2 col-lg-8 offset-lg-0">
         <h6>Nowa oferta</h6>
         <p class="small text-justify">Dodaj nową ofertę dla swoich podopiecznych. Oferta uwzględnia ilość treningów, czas ich trwania, a także jak długo pakiet jest ważny od momentu jego otwarcia. Każdy pakiet ma także swoją cenę, która jest widoczna dla Twoich klientów.</p>
         <form (ngSubmit)="onSubmit(f)" #f="ngForm">
@@ -147,6 +147,10 @@
             <button class="btn btn-dark float-right" type="button" (click)="onCancelForm()" *ngIf="!f.dirty">Wróć</button>
             <button class="btn btn-dark float-right" type="button" data-toggle="modal" data-target="#alertModal" *ngIf="f.dirty">Wyjdź</button>
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-8 offset-md-2 col-lg-8 offset-lg-0">
         <hr>
     </div>
 </div>

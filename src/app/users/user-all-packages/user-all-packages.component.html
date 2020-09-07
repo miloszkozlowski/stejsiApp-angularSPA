@@ -1,0 +1,33 @@
+<h5>Aktywne pakiety</h5>
+<small class="text-muted" *ngIf="activePackages.length === 0">Nie ma żadnych aktywnych pakietów</small>
+<ul class="list-group">
+    <li
+            class="list-group-item list-group-item-action justify-content-between d-flex align-items-center"
+            *ngFor="let pack of activePackages"
+            (click)="modalPack = pack"
+            style="cursor: pointer"
+    >
+        <span>{{ pack.packageType.title }} <small>{{ pack.whenCreated | date:'medium':undefined:'pl-PL'}}</small></span>
+        <span class="badge badge-pill badge-danger badge-small" *ngIf="!pack.paid">Nieopłacony</span>
+    </li>
+</ul>
+<h5 class="mt-4" *ngIf="inactivePackages.length > 0">Pakiety archiwalne</h5>
+<ul class="list-group" *ngIf="inactivePackages.length > 0">
+    <li
+            class="list-group-item list-group-item-action justify-content-between d-flex align-items-center bg-secondary text-light"
+            *ngFor="let pack of inactivePackages"
+            (click)="modalPack = pack"
+            style="cursor: pointer"
+    >
+        <span>{{ pack.packageType.title }} <small>{{ pack.whenCreated | date:'medium':undefined:'pl-PL'}}</small></span>
+        <span class="badge badge-pill badge-danger badge-small" *ngIf="!pack.paid">Nieopłacony</span>
+    </li>
+</ul>
+<app-package-modal
+        [package]="modalPack"
+        [user]="user"
+        *ngIf="modalPack"
+        (closed)="modalPack = null"
+        (packageClosed)="makePackagesList()"
+
+></app-package-modal>

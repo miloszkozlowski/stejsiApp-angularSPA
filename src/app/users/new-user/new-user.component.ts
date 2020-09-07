@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {UserWriteModel} from '../models/user-write.model';
-import {UsersService} from '../services/users.service';
+import {UserWriteModel} from '../../models/user-write.model';
+import {UsersService} from '../../services/users.service';
+import {UserModel} from '../../models/user.model';
 
 @Component({
     selector: 'app-new-user',
@@ -11,12 +12,15 @@ import {UsersService} from '../services/users.service';
 export class NewUserComponent {
     isPosting: boolean = false;
     hasErrorOccurred: boolean = false;
-    occurredErrorMessage: string;
+    errorMessage: string;
+    infoMessage: string;
+    addedUser: UserModel;
+
     constructor(private userService: UsersService) {
     }
     onSubmit(newUserForm: NgForm): void {
+        this.addedUser = null;
         this.isPosting = true;
-        console.log(newUserForm);
         const userWriteModel = new UserWriteModel(
             newUserForm.form.value.name,
             newUserForm.form.value.surname,
@@ -24,11 +28,13 @@ export class NewUserComponent {
             newUserForm.form.value.phoneNumber
         );
         this.userService.registerUser(userWriteModel).subscribe(addedUser => {
+            this.addedUser = addedUser;
             newUserForm.reset();
+            this.infoMessage = addedUser.name + ' ' + addedUser.surname + ' - Twój nowy podopieczny został dodany. ';
             this.isPosting = false;
         }, error => {
             this.hasErrorOccurred = true;
-            this.occurredErrorMessage = error;
+            this.errorMessage = error;
             this.isPosting = false;
         });
     }

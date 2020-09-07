@@ -1,0 +1,140 @@
+<div class="row px-3">
+    <div class="col d-flex justify-content-between px-0 pb-1">
+        <button (click)="loadWeek(currWeekIndex-1)" class="btn btn-dark btn-sm px-3">
+            <fa-icon [icon]="faCaretLeft"></fa-icon>
+        </button>
+
+        <button (click)="loadWeek(currWeekIndex+1)" class="btn btn-dark btn-sm px-3">
+            <fa-icon [icon]="faCaretRight"></fa-icon>
+        </button>
+    </div>
+</div>
+<div class="row px-3">
+    <div (click)="planDay(day)" *ngFor="let day of weekEvents | keyvalue; index as ind" class="col calendar-box">
+        <div class="row">
+            <div class="col text-center" style="height: 15px">
+                <small class="text-light calendar-text">{{ returnDate(day.key) }}</small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <small class="text-light calendar-text">{{ returnMonthString(day.key) }}</small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <small class="text-light calendar-bold">{{ weekDays[ind] }}</small>
+            </div>
+        </div>
+        <div class="row pl-1" [ngClass]="{'pr-1': ind === 6}" *ngIf="!isCalendarLoading">
+            <div class="col-12 rounded bg-info my-1 px-1 text-center pt-1">
+                <small class="very-small-bold"><span class="d-none d-lg-block">Treningów: </span>{{ day.value.length }}</small>
+            </div>
+            <div class="col-12 rounded bg-light my-1 px-0 px-md-1" *ngFor="let i of day.value">
+                <small class="very-small">{{ returnHoursFromTo(i) }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row px-3" *ngIf="isCalendarLoading">
+    <div class="col text-center">
+        <app-loading-spinner-lg></app-loading-spinner-lg>
+    </div>
+</div>
+<div #modalPlan class="modal fade" id="modalPlan" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    {{ modalWeekDay | titlecase }}, {{ modalDate | date:"yyyy-MM-dd"}}
+                </h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Trening: <strong>{{ owner.name }} {{ owner.surname }}</strong>
+                <form #f=ngForm (ngSubmit)="onTrainingPlanned(f)" class="mt-1">
+                    <small class="form-text">Wybierz godzinę (trening trwa {{ packageType.lengthMinutes }} min.):</small>
+                    <div class="row" *ngIf="selectedHour === null">
+                        <div class="col mt-1">
+                            <a
+                                    class="btn btn-sm btn-dark text-light mt-1 mr-1"
+                                    *ngFor="let h of modalHours; index as ind"
+                                    (click)="selectedHour=ind"
+                            >{{ h }}:00</a>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="selectedHour !== null && selectedMinutes === null">
+                        <div class="col mt-1">
+                            <a
+                                    class="btn btn-sm btn-light mt-1mr-1"
+                                    *ngFor="let m of modalMinutes; index as ind"
+                                    (click)="selectedMinutes=ind"
+                            >{{ modalHours[selectedHour] }}:{{m}}</a>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="selectedHour !== null">
+                        <div class="input-group input-group-sm my-2 mx-3">
+                            <div class="input-group-prepend">
+                            <label for="when" class="input-group-text">
+                                Kiedy
+                            </label>
+                            </div>
+                            <input
+                                    class="form-control form-control-sm"
+                                    type="text"
+                                    id="when"
+                                    disabled
+                                    value="{{ modalHours[selectedHour] }}:{{ selectedMinutes ? modalMinutes[selectedMinutes] : '00' }}"
+                            >
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-outline-dark" (click)="onModalReset()">Zmień</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-sm my-2">
+                        <div class="input-group-prepend">
+                            <label for="location" class="input-group-text">
+                                Gdzie
+                            </label>
+                        </div>
+                        <select
+                                class="custom-select custom-select-sm"
+                                id="location"
+                                name="location"
+                                [(ngModel)]="defaultLocation"
+                        >
+                            <option value="">
+                                Bez lokalizacji
+                            </option>
+                            <option
+                                    *ngFor="let loc of locations"
+                                    [selected]="loc.defaultLocation"
+                                    [ngValue]="loc"
+                            >{{ loc.name }}
+                                </option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button
+                                    [disabled]="isModalSubmitting || selectedHour === null"
+                                    class="btn btn-sm btn-success"
+                                    type="submit"
+                            >Zaplanuj <span *ngIf="isModalSubmitting" class="spinner-grow spinner-grow-sm mx-1"></span>
+                            </button>
+                            <small class="form-text text-danger" *ngIf="modalError" [innerHTML]="modalError"></small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

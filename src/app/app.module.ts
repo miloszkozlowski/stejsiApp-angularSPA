@@ -8,7 +8,7 @@ import {HeaderComponent} from './header/header.component';
 import {HomeScreenComponent} from './home-screen/home-screen.component';
 import {TipsComponent} from './tips/tips.component';
 import {TipItemComponent} from './tips/tip-item/tip-item.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
 import '@angular/common/locales/global/pl';
@@ -20,7 +20,7 @@ import {TipsListItemComponent} from './tips/tips-list-item/tips-list-item.compon
 import {NewTipComponent} from './tips/new-tip/new-tip.component';
 import {AlertComponent} from './shared/alert/alert.component';
 import {UsersComponent} from './users/users.component';
-import {NewUserComponent} from './new-user/new-user.component';
+import {NewUserComponent} from './users/new-user/new-user.component';
 import {UserEmailValidator} from './models/validators/user-email.validator';
 import {LoadingSpinnerComponent} from './shared/loading-spinner/loading-spinner.component';
 import {UserPhoneNumberValidator} from './models/validators/user-phone-number.validator';
@@ -39,6 +39,16 @@ import {LocationListItem} from './settings/settings-locations/location-list-item
 import {LocationNewComponent} from './settings/settings-locations/location-new/location-new.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LocationRemoveDialog} from './settings/settings-locations/location-remove-dialog/location-remove-dialog';
+import {UserSearchItemComponent} from './users/users-search-item/user-search-item.component';
+import {UserSelectedComponent} from './users/user-selected/user-selected.component';
+import {UserSearchFormComponent} from './user-search-form/user-search-form.component';
+import {UserPlannerComponent} from './users/user-planner/user-planner.component';
+import {UserCalendarComponent} from './users/user-calendar/user-calendar.component';
+import {UserTrainingListComponent} from './users/user-trainings-list/user-training-list.component';
+import {DatePipe} from '@angular/common';
+import {UserAllPackagesComponent} from './users/user-all-packages/user-all-packages.component';
+import {UserPackageModalComponent} from './users/user-all-packages/user-package-modal/user-package-modal.component';
+import {ClickOutsideModule} from 'ng-click-outside';
 
 
 @NgModule({
@@ -72,18 +82,29 @@ import {LocationRemoveDialog} from './settings/settings-locations/location-remov
         SettingsLocationsComponent,
         LocationListItem,
         LocationNewComponent,
-        LocationRemoveDialog
+        LocationRemoveDialog,
+        UserSearchItemComponent,
+        UserSelectedComponent,
+        UserSearchFormComponent,
+        UserPlannerComponent,
+        UserCalendarComponent,
+        UserTrainingListComponent,
+        UserAllPackagesComponent,
+        UserPackageModalComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
+        ReactiveFormsModule,
         AppRoutingModule,
         HttpClientModule,
         FontAwesomeModule,
         NgxPopper,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        ClickOutsideModule
     ],
     providers: [
+        DatePipe,
         {provide: LOCALE_ID, useValue: 'pl-PL'}
     ],
     bootstrap: [AppComponent]

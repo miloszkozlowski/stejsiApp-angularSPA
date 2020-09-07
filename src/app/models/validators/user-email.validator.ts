@@ -6,7 +6,7 @@ import {switchMap} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 @Directive({
-    selector: '[emailAvaliable]',
+    selector: '[emailAvailable]',
     providers: [{provide: NG_ASYNC_VALIDATORS, useExisting: UserEmailValidator, multi: true}]
 })
 export class UserEmailValidator implements AsyncValidator {

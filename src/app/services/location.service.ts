@@ -112,4 +112,13 @@ export class LocationService {
                 })
             );
     }
+
+    getAllLocations(): Observable<LocationModel[]> {
+        return this.http.get<LocationModel[]>(ENDPOINT + '/all')
+            .pipe(
+                catchError(err => {
+                    return this.httpService.handleError(err);
+                })
+            );
+    }
 }

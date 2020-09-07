@@ -1,12 +1,58 @@
+<div class="row d-block d-lg-none">
+    <div class="col-12">
+        <app-user-search-form></app-user-search-form>
+    </div>
+</div>
 <div class="row">
-    <div class="col-12 col-md-6 col-lg-4">
-        <div class="form-row">
-            <form autocomplete="off">
-                <input type="search" class="form-control" placeholder="Zacznij wpisywać...">
-            </form>
+    <div class="col-12">
+        <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" *ngIf="infoMessage">
+            <div [innerHTML]="infoMessage"></div>
+            <button type="button" class="close" data-dismiss="alert" (click)="infoMessage = null">
+                <span>&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="errorMessage">
+            <div [innerHTML]="errorMessage"></div>
+            <button type="button" class="close" data-dismiss="alert" (click)="errorMessage = null">
+                <span>&times;</span>
+            </button>
         </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-8">
-
+</div>
+<div class="row mb-2">
+    <div class="col-12 col-lg-6">
+        <h4>Podopieczni trenera</h4>
+        <small>Poniżej lista Twoich podopiecznych. Kolorem szarym zaznaczeni są Ci, którzy nie aktywowali jeszcze aplikacji. Wybierz osobę z listy, aby otworzyć nowy pakiet treningów.</small>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col-12">
+        <a class="badge badge-light clickable" *ngIf="isShowingSearchResults" (click)="onShowAll()">{{ filterSearchWord }} <span>&times;</span></a>
+    </div>
+</div>
+<router-outlet></router-outlet>
+<div class="row" *ngIf="!isLoading">
+    <div class="col-12">
+        <div class="card-columns">
+            <app-user-search-item [user]="user" *ngFor="let user of usersFound"></app-user-search-item>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="isLoading">
+    <div class="col-12 text-center">
+        <app-loading-spinner-lg></app-loading-spinner-lg>
+    </div>
+</div>
+<div class="row mb-2" *ngIf="!isLoading && usersFound.length === 0">
+    <div class="col-12 col-md-6 offset-md-3 text-center">
+        <div class="alert alert-dark">
+            <span *ngIf="!isShowingSearchResults">Nic tutaj nie ma... <br><a class="btn btn-sm btn-success mt-2" routerLink="/podopieczni/nowy">Dodaj nowego podopiecznego</a></span>
+            <span *ngIf="isShowingSearchResults">Nic nie znalazłem. Spróbuj wyszukać jeszcze raz. <br><button class="btn btn-sm btn-dark mt-2" (click)="onShowAll()">Pokaż wszystkich</button></span>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="!isShowingSearchResults && !isLoading && !isLastPage">
+    <div class="col-12 text-center">
+        <button class="btn btn-sm btn-dark mx-auto" (click)="onLoadMore()">Więcej <fa-icon [icon]="faSyncAlt"></fa-icon></button>
     </div>
 </div>

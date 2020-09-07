@@ -1,0 +1,62 @@
+<div class="alert alert-dark mx-2 mx-md-0" *ngIf="trainingsPlanned.length === 0">Żaden trening nie jest jeszcze zaplanowany</div>
+<ul class="list-group mx-1 mx-md-0 mb-2">
+    <div
+            class="dropdown"
+            *ngFor="let t of trainingsPlanned"
+    >
+        <li
+                class="list-group-item d-flex justify-content-between align-items-center px-1 px-md-2"
+                [ngClass]="{ 'list-group-item-action' : editable }"
+                id="dropdownMenuLink"
+                #htmlLiElement
+        >
+            {{ t.scheduledFor | date: "short": undefined : "pl-PL"}} ({{ t.location ? t.location.name : 'nie podano' }})
+            <span class="badge badge-pill badge-danger badge-small" *ngIf="t.whenCanceled">Odwołany</span>
+            <span class="badge badge-pill badge-warning badge-small" *ngIf="!t.presenceConfirmedByUser && isPast(t.scheduledFor)">Bez obecności</span>
+            <span class="badge badge-pill badge-success badge-small" *ngIf="t.presenceConfirmedByUser && isPast(t.scheduledFor)">Obecny</span>
+            <span class="badge badge-pill badge-dark badge-small" *ngIf="t.presenceConfirmedByUser && isPast(t.scheduledFor) && t.markedAsDone">Zamknięty</span>
+            <span class="badge badge-pill badge-info badge-small" *ngIf="!t.presenceConfirmedByUser && isPast(t.scheduledFor) && t.markedAsDone">Zamknięty; bez obecności</span>
+            <span class="badge badge-pill badge-warning badge-small" *ngIf="!t.scheduleConfirmed && !isPast(t.scheduledFor)">Niepotwierdzony</span>
+            <span class="badge badge-pill badge-success badge-small" *ngIf="t.scheduleConfirmed && !isPast(t.scheduledFor)">Potwierdzony</span>
+        </li>
+        <div
+                class="dropdown-menu dropdown-menu-right"
+                [ngClass]="{'px-2': t.markedAsDone}"
+                style="max-width: 300px"
+                *ngIf="editable"
+        >
+            <small *ngIf="t.markedAsDone" class="text-muted">
+                Ten trening został już potwierdzony przez trenera i podopiecznego. Nie można go modyfikować.
+            </small>
+            <a
+                    class="dropdown-item clickable"
+                    *ngIf="isPast(t.scheduledFor) && !t.markedAsDone && !t.whenCanceled"
+                    (click)="onMarkAsDone(t)"
+            >
+                <fa-icon [icon]="faCalendarCheck" [fixedWidth]="true"></fa-icon>
+                Potwierdź</a>
+            <a
+                    class="dropdown-item clickable"
+                    *ngIf="!isPast(t.scheduledFor) && t.whenCanceled"
+                    (click)="onUnCancel(t)"
+            >
+                <fa-icon [icon]="faUndo" [fixedWidth]="true"></fa-icon>
+                Przywróć</a>
+            <a
+                    class="dropdown-item clickable"
+                    *ngIf="!t.markedAsDone"
+                    (click)="onEdit(t)"
+            >
+                <fa-icon [icon]="faEdit" [fixedWidth]="true"></fa-icon>
+                Edytuj</a>
+
+            <a
+                    class="dropdown-item clickable"
+                    *ngIf="!t.markedAsDone"
+                    (click)="onRemove(t)"
+            >
+                <fa-icon [icon]="faCalendarTimes" [fixedWidth]="true"></fa-icon>
+                Usuń</a>
+        </div>
+    </div>
+</ul>
