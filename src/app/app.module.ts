@@ -49,6 +49,8 @@ import {DatePipe} from '@angular/common';
 import {UserAllPackagesComponent} from './users/user-all-packages/user-all-packages.component';
 import {UserPackageModalComponent} from './users/user-all-packages/user-package-modal/user-package-modal.component';
 import {ClickOutsideModule} from 'ng-click-outside';
+import {CalendarComponent} from './calendar/calendar.component';
+import {CalendarItemComponent} from './calendar/calendar-item/calendar-item.component';
 
 
 @NgModule({
@@ -90,7 +92,9 @@ import {ClickOutsideModule} from 'ng-click-outside';
         UserCalendarComponent,
         UserTrainingListComponent,
         UserAllPackagesComponent,
-        UserPackageModalComponent
+        UserPackageModalComponent,
+        CalendarComponent,
+        CalendarItemComponent
     ],
     imports: [
         BrowserModule,

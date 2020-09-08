@@ -12,12 +12,12 @@
         >
             {{ t.scheduledFor | date: "short": undefined : "pl-PL"}} ({{ t.location ? t.location.name : 'nie podano' }})
             <span class="badge badge-pill badge-danger badge-small" *ngIf="t.whenCanceled">Odwołany</span>
-            <span class="badge badge-pill badge-warning badge-small" *ngIf="!t.presenceConfirmedByUser && isPast(t.scheduledFor)">Bez obecności</span>
-            <span class="badge badge-pill badge-success badge-small" *ngIf="t.presenceConfirmedByUser && isPast(t.scheduledFor)">Obecny</span>
-            <span class="badge badge-pill badge-dark badge-small" *ngIf="t.presenceConfirmedByUser && isPast(t.scheduledFor) && t.markedAsDone">Zamknięty</span>
-            <span class="badge badge-pill badge-info badge-small" *ngIf="!t.presenceConfirmedByUser && isPast(t.scheduledFor) && t.markedAsDone">Zamknięty; bez obecności</span>
-            <span class="badge badge-pill badge-warning badge-small" *ngIf="!t.scheduleConfirmed && !isPast(t.scheduledFor)">Niepotwierdzony</span>
-            <span class="badge badge-pill badge-success badge-small" *ngIf="t.scheduleConfirmed && !isPast(t.scheduledFor)">Potwierdzony</span>
+            <span class="badge badge-pill badge-warning badge-small" *ngIf="!t.presenceConfirmedByUser && isPast(t.scheduledFor) && !t.whenCanceled">Bez obecności</span>
+            <span class="badge badge-pill badge-success badge-small" *ngIf="t.presenceConfirmedByUser && isPast(t.scheduledFor) && !t.whenCanceled && !t.markedAsDone">Obecny</span>
+            <span class="badge badge-pill badge-dark badge-small" *ngIf="t.presenceConfirmedByUser && isPast(t.scheduledFor) && t.markedAsDone && !t.whenCanceled">Zamknięty</span>
+            <span class="badge badge-pill badge-info badge-small" *ngIf="!t.presenceConfirmedByUser && isPast(t.scheduledFor) && t.markedAsDone && !t.whenCanceled">Zamknięty; bez obecności</span>
+            <span class="badge badge-pill badge-warning badge-small" *ngIf="!t.scheduleConfirmed && !isPast(t.scheduledFor) && !t.whenCanceled">Niepotwierdzony</span>
+            <span class="badge badge-pill badge-success badge-small" *ngIf="t.scheduleConfirmed && !isPast(t.scheduledFor) && !t.whenCanceled">Potwierdzony</span>
         </li>
         <div
                 class="dropdown-menu dropdown-menu-right"

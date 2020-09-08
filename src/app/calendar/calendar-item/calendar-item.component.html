@@ -1,0 +1,23 @@
+<div
+        class="col-12 rounded text-white px-1 mb-1 py-1 pt-md-1"
+        [ngClass]="{
+            'pt-0': homeScreen,
+            'bg-danger': item.canceled,
+            'bg-success': item.confirmed && !isPast() && !item.canceled,
+            'bg-warning': !item.confirmed && !isPast() && !item.canceled,
+            'bg-dark': isPast() && !item.canceled
+        }"
+        [style.line-height]="!homeScreen ? '1.6vw' : ''">
+    <span
+            [style.font-size]="!homeScreen ? '1.2vw' : ''"
+
+    >{{ item.eventStartsAt | date: 'HH:mm'}} - {{ item.eventEndsAt | date: 'HH:mm' }}</span>
+    <br><a
+        class="font-weight-lighter text-white"
+        [style.font-size]="!homeScreen ? '1.4vw' : ''"
+        [routerLink]="['/podopieczni', item.userId, item.userName + '-' + item.userSurname]"
+>{{ item.eventName }}</a><br>
+    <small *ngIf="homeScreen" class="font-weight-lighter">{{ item.eventSubName }}</small><br>
+    <small *ngIf="homeScreen && item.confirmed && !isPast() && !item.canceled" class="font-weight-bold mt-2">Potwierdzony</small>
+    <small *ngIf="homeScreen && !item.confirmed && !isPast() && !item.canceled" class="font-weight-bold mt-2">Niepotwierdzony</small>
+</div>

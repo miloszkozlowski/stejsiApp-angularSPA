@@ -95,10 +95,6 @@ export class UserCalendarComponent implements OnInit {
         return months.slice(monthNo)[0];
     }
 
-    dayToString(dayNo: number): string {
-        const weekDaysFull = ['poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota', 'niedziela'];
-        return weekDaysFull.slice(dayNo - 1)[0];
-    }
 
     loadWeek(ind: number) {
         this.isCalendarLoading = true;
@@ -119,7 +115,7 @@ export class UserCalendarComponent implements OnInit {
 
     planDay(day: { key: Date, value: CalendarItemModel[] }) {
         this.modalDate = new Date(day.key);
-        this.modalWeekDay = this.dayToString(this.modalDate.getDay());
+        this.modalWeekDay = this.service.dayToString(this.modalDate.getDay());
         this.onModalReset();
         $(this.modal.nativeElement).modal('show');
     }

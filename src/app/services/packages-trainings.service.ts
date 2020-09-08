@@ -169,7 +169,7 @@ export class PackagesTrainingsService {
 
     getCalendarWeek(weekIndex?: number): Observable<Map<Date, CalendarItemModel[]>> {
         return this.http.get<Map<Date, CalendarItemModel[]>>(environment.serverPath + '/calendar',
-            {params: new HttpParams().set('week', weekIndex.toString())})
+            {params: new HttpParams().set('week', weekIndex ? weekIndex.toString() : '0')})
             .pipe(
                 catchError(err => {
                     return this.httpService.handleError(err);
@@ -188,4 +188,28 @@ export class PackagesTrainingsService {
                 })
             );
     }
+
+    dayToString(dayNo: number): string {
+        const weekDaysFull = ['poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota', 'niedziela'];
+        return weekDaysFull.slice(dayNo - 1)[0];
+    }
+
+    getAllCanceledTrainings(): Observable<CalendarItemModel[]> {
+        return this.http.get<CalendarItemModel[]>(environment.serverPath + '/calendar/canceled')
+            .pipe(
+                catchError(err => {
+                    return this.httpService.handleError(err);
+                })
+            );
+    }
+
+    getAllUnclosedPackages(): Observable<PackageModel[]> {
+        return this.http.get<PackageModel[]>(ENDPOINT_PACKAGES + '/unclosed')
+            .pipe(
+                catchError(err => {
+                    return this.httpService.handleError(err);
+                })
+            );
+    }
+
 }

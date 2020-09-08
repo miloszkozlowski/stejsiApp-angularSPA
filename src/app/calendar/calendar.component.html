@@ -1,0 +1,79 @@
+<div class="row mb-2">
+    <div class="col-12">
+        <h4>Kalendarz</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" *ngIf="infoMessage">
+            <div [innerHTML]="infoMessage"></div>
+            <button type="button" class="close" data-dismiss="alert" (click)="infoMessage = null">
+                <span>&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="errorMessage">
+            <div [innerHTML]="errorMessage"></div>
+            <button type="button" class="close" data-dismiss="alert" (click)="errorMessage = null">
+                <span>&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col d-flex justify-content-between px-0 px-lg-5 mx-3 mb-2">
+        <button (click)="loadWeek(currentWeekNo-1)" class="btn btn-dark btn-sm px-3">
+            <fa-icon [icon]="faCaretLeft"></fa-icon>
+        </button>
+        <button (click)="loadWeek(currentWeekNo+1)" class="btn btn-dark btn-sm px-3">
+            <fa-icon [icon]="faCaretRight"></fa-icon>
+        </button>
+    </div>
+</div>
+<div class="row" *ngIf="isLoading">
+    <div class="col d-flex justify-content-center mt-5">
+        <app-loading-spinner-lg></app-loading-spinner-lg>
+    </div>
+</div>
+<div class="row px-0 px-lg-5" *ngIf="!isLoading">
+    <div
+            class="col rounded pb-3"
+            *ngFor="let day of loadedWeek | keyvalue; index as ind"
+            [ngClass]="{'bg-light': day.key == today}"
+    >
+        <div class="row pr-1">
+            <div class="col-12 d-flex justify-content-center">
+                <span style="font-size: 1.25vw">{{ day.key | date: 'dd MMM':undefined:'pl-PL' }}</span>
+            </div>
+            <div class="col-12 d-flex justify-content-center mb-1">
+                <span class="font-weight-bold" style="font-size: 1vw">{{ service.dayToString(ind+1) }}</span>
+            </div>
+            <app-calendar-item
+                [item]="item"
+                *ngFor="let item of day.value"
+            ></app-calendar-item>
+        </div>
+    </div>
+</div>
+<div class="row mt-3 px-0 px-lg-5">
+    <div class="col">
+        <hr>
+    </div>
+</div>
+<div class="row px-0 px-lg-5">
+    <div class="col justify-content-between">
+        <div style="width: 10px; height: 10px" class="bg-dark"></div>
+        <small class="text-muted">przeszły</small>
+    </div>
+    <div class="col justify-content-between">
+        <div style="width: 10px; height: 10px" class="bg-danger"></div>
+        <small class="text-muted">odwołany</small>
+    </div>
+    <div class="col justify-content-between">
+        <div style="width: 10px; height: 10px" class="bg-warning"></div>
+        <small class="text-muted">niepotwierdzony</small>
+    </div>
+    <div class="col justify-content-between">
+        <div style="width: 10px; height: 10px" class="bg-success"></div>
+        <small class="text-muted" style="font-size: 10px">potwierdzony</small>
+    </div>
+</div>

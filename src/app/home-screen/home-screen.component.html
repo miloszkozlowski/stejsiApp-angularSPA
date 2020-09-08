@@ -1,1 +1,73 @@
-<p>home-screen works!</p>
+<div class="row mb-2">
+    <div class="col-12">
+        <h4>Ach witaj Stejsi!</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" *ngIf="infoMessage">
+            <div [innerHTML]="infoMessage"></div>
+            <button type="button" class="close" data-dismiss="alert" (click)="infoMessage = null">
+                <span>&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="errorMessage">
+            <div [innerHTML]="errorMessage"></div>
+            <button type="button" class="close" data-dismiss="alert" (click)="errorMessage = null">
+                <span>&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card-columns">
+            <div class="card" *ngIf="loadedCanceledTrainings.length > 0">
+                <div class="card-header">Odwołane treningi</div>
+                <div class="card-body">
+                    <app-calendar-item [item]="item" *ngFor="let item of loadedCanceledTrainings" [homeScreen]="true"></app-calendar-item>
+                    <small class="text-muted">Odwołane treningi należy edytować, aby zmienić ich termin lub przywrócić pierwotny termin. Można tego dokonać w panelu planowania treningów. Kliknij na imię i nazwysko podopiecznego.</small>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Grafik na dzisiaj
+                </div>
+                <div class="card-body" [ngClass]="{'text-center': isCalendarLoading || loadedDay.length === 0 }">
+                    <app-loading-spinner-lg *ngIf="isCalendarLoading"></app-loading-spinner-lg>
+                    <small class="text-muted font-weight-light" *ngIf="loadedDay.length === 0 && !isCalendarLoading">Nie ma treningów zaplanowanych na dzisiaj</small>
+                    <app-calendar-item [item]="item" *ngFor="let item of loadedDay" homeScreen="true"></app-calendar-item>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <small><a routerLink="/kalendarz">Kalendarz</a></small>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Otwarte pakiety
+                </div>
+                <div class="card-body" [ngClass]="{'text-center': isUnclosedPackagesLoading || loadedUnclosedPackages.length === 0 }">
+                    <app-loading-spinner-lg *ngIf="isCalendarLoading"></app-loading-spinner-lg>
+                    <small class="text-muted font-weight-light" *ngIf="loadedUnclosedPackages.length === 0 && !isUnclosedPackagesLoading">Twoi podopieczni nie mają żadnych otwartych pakietów treningowych</small>
+                    <div
+                            class="col-12 rounded px-1 mb-1 py-1 pt-md-1 bg-light"
+                            *ngFor="let pack of loadedUnclosedPackages"
+                    >
+                        <a
+                                class="font-weight-lighter text-body"
+                                [routerLink]="['/podopieczni', pack.owner.id, pack.owner.name + '-' + pack.owner.surname]"
+                        >{{ pack.owner.name }} {{ pack.owner.surname }}</a><br>
+                        <span class="font-weight-bold">{{ pack.packageType.title }}</span><br>
+                        <small>Treningi w pakiecie: <strong>{{ pack.packageType.amountOfTrainings }}</strong></small><br>
+                        <small>Pozostało do zaplanowania: <strong>{{ getAmountUnplanned(pack) }}</strong></small><br>
+                        <small>Ważny: <strong>{{ pack.validInfinitely ? 'bezterminowo' : pack.valid ? pack.validityDays + ' dni' : 'przeterminowany'}}</strong></small><br>
+                        <small *ngIf="isReadyToBeClosed(pack)" class="font-weight-lighter">Ten pakiet można już zamknąć</small>
+                    </div>
+                    <div class="card-footer" *ngIf="packagesReadyToBeClosed.length > 1">
+                        <button class="btn btn-sm btn-dark" (click)="onClosePackages()" [disabled]="isPackageClosing">Zamknij wszystkie zakończone <span class="spinner-grow spinner-grow-sm" *ngIf="isPackageClosing"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
