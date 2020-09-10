@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -6,20 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  errMsg: String = null;
+  infoMessage: string;
+  errorMessage: string;
+  isLoginIn = false;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onLogin(username: HTMLInputElement, password: HTMLInputElement) {
-    if(username.value === '' || password.value === '') {
-      this.errMsg = 'Aby zalogować się, należy podać nazwę użytkowika i hasło';
-    }
-    else {
-      this.errMsg = null;
-    }
+  onLoginSubmit(loginForm: NgForm) {
+    this.isLoginIn = true;
   }
 
 }

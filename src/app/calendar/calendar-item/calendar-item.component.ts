@@ -8,6 +8,7 @@ import {CalendarItemModel} from '../../models/calendar-item.model';
 export class CalendarItemComponent {
     @Input('item') item: CalendarItemModel;
     @Input('homeScreen') homeScreen: boolean = false;
+    @Input('withDate') withDate: boolean = false;
     today = new Date();
 
     isPast(): boolean {

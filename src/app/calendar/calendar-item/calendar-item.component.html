@@ -12,6 +12,7 @@
             [style.font-size]="!homeScreen ? '1.2vw' : ''"
 
     >{{ item.eventStartsAt | date: 'HH:mm'}} - {{ item.eventEndsAt | date: 'HH:mm' }}</span>
+    <span class="font-weight-light" *ngIf="withDate"> ({{ item.eventStartsAt | date: 'yyyy-MM-dd' }})</span>
     <br><a
         class="font-weight-lighter text-white"
         [style.font-size]="!homeScreen ? '1.4vw' : ''"

@@ -22,7 +22,7 @@
 <div class="row mb-2">
     <div class="col-12 col-lg-6">
         <h4>Podopieczni trenera</h4>
-        <small>Poniżej lista Twoich podopiecznych. Kolorem szarym zaznaczeni są Ci, którzy nie aktywowali jeszcze aplikacji. Wybierz osobę z listy, aby otworzyć nowy pakiet treningów.</small>
+        <small>Poniżej lista Twoich podopiecznych. Kolorem szarym zaznaczeni są Ci, którzy nie aktywowali jeszcze aplikacji. Wybierz osobę z listy, aby otworzyć nowy pakiet treningów, przeglądać pakiety, planować treningi i zobaczyć statsystki.</small>
     </div>
 </div>
 <div class="row mb-2">
@@ -31,16 +31,11 @@
     </div>
 </div>
 <router-outlet></router-outlet>
-<div class="row" *ngIf="!isLoading">
+<div class="row" *ngIf="usersFound.length > 0">
     <div class="col-12">
         <div class="card-columns">
             <app-user-search-item [user]="user" *ngFor="let user of usersFound"></app-user-search-item>
         </div>
-    </div>
-</div>
-<div class="row" *ngIf="isLoading">
-    <div class="col-12 text-center">
-        <app-loading-spinner-lg></app-loading-spinner-lg>
     </div>
 </div>
 <div class="row mb-2" *ngIf="!isLoading && usersFound.length === 0">
@@ -54,5 +49,10 @@
 <div class="row" *ngIf="!isShowingSearchResults && !isLoading && !isLastPage">
     <div class="col-12 text-center">
         <button class="btn btn-sm btn-dark mx-auto" (click)="onLoadMore()">Więcej <fa-icon [icon]="faSyncAlt"></fa-icon></button>
+    </div>
+</div>
+<div class="row" *ngIf="isLoading">
+    <div class="col-12 text-center">
+        <app-loading-spinner-lg></app-loading-spinner-lg>
     </div>
 </div>

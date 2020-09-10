@@ -53,7 +53,6 @@ export class UsersService {
         const queryParams = new HttpParams().set('phoneNumber', phoneNumberToCheck);
         return this.http.get<{ phoneNumber: string, available: boolean }>(ENDPOINT + '/phone/available', {params: queryParams})
             .pipe(
-                tap(console.log),
                 map(resp => {
                     if (resp.phoneNumber === phoneNumberToCheck && resp.available === false) {
                         return {phoneNumberForbidden: !resp.available};

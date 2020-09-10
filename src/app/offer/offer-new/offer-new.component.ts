@@ -27,9 +27,7 @@ export class OfferNewComponent implements OnInit, OnDestroy {
     onSubmit(newOfferForm: NgForm) {
         this.isPosting = true;
         this.occurredErrorMessage = null;
-        console.log(newOfferForm);
         let toSave: PackageTypeWriteModel = newOfferForm.value;
-        console.log(toSave);
         this.service.createNewPackageType(toSave).subscribe(() => {
             this.isPosting = false;
             this.afterSuccessfulPost();

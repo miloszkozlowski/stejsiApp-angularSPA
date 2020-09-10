@@ -39,8 +39,6 @@ export class CalendarComponent implements OnInit {
                 this.loadedWeek = week;
                 this.currentWeekNo = weekNo ? weekNo : 0;
                 this.isLoading = false;
-                console.log(week);
-                console.log(this.today);
             }, error => {
                 this.errorMessage = error;
                 this.isLoading = false;

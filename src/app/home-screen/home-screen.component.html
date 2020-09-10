@@ -23,15 +23,15 @@
     <div class="col">
         <div class="card-columns">
             <div class="card" *ngIf="loadedCanceledTrainings.length > 0">
-                <div class="card-header">Odwołane treningi</div>
+                <div class="card-header"><strong>Odwołane treningi</strong></div>
                 <div class="card-body">
-                    <app-calendar-item [item]="item" *ngFor="let item of loadedCanceledTrainings" [homeScreen]="true"></app-calendar-item>
+                    <app-calendar-item [withDate]="true" [item]="item" *ngFor="let item of loadedCanceledTrainings" [homeScreen]="true"></app-calendar-item>
                     <small class="text-muted">Odwołane treningi należy edytować, aby zmienić ich termin lub przywrócić pierwotny termin. Można tego dokonać w panelu planowania treningów. Kliknij na imię i nazwysko podopiecznego.</small>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    Grafik na dzisiaj
+                    <strong>Grafik na dzisiaj</strong>
                 </div>
                 <div class="card-body" [ngClass]="{'text-center': isCalendarLoading || loadedDay.length === 0 }">
                     <app-loading-spinner-lg *ngIf="isCalendarLoading"></app-loading-spinner-lg>
@@ -44,7 +44,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    Otwarte pakiety
+                    <strong>Otwarte pakiety</strong>
                 </div>
                 <div class="card-body" [ngClass]="{'text-center': isUnclosedPackagesLoading || loadedUnclosedPackages.length === 0 }">
                     <app-loading-spinner-lg *ngIf="isCalendarLoading"></app-loading-spinner-lg>

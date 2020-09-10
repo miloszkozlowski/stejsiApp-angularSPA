@@ -10,14 +10,7 @@ declare var $: any;
 
 @Component({
     selector: 'app-user-search-form',
-    template: '        <form class="mt-1 mb-3 my-lg-0">\n' +
-        '                <div class="input-group">\n' +
-        '                    <div class="input-group-prepend">\n' +
-        '                        <span class="input-group-text"><fa-icon [icon]="faSearch"></fa-icon></span>\n' +
-        '                    </div>\n' +
-        '                    <input class="form-control" placeholder="Podopieczni..." type="search" [formControl]="searchKeyWord" #inputField (focusout)="tooltipHide()" data-trigger="manual" data-toggle="tooltip" data-placement="bottom" title="Wpisz najmniej 3 znaki aby wyszukać">\n' +
-        '                </div>\n' +
-        '        </form>'
+    templateUrl: './user-search.component.html'
 })
 export class UserSearchFormComponent implements OnInit, OnDestroy {
     searchKeyWord = new FormControl();
@@ -54,7 +47,7 @@ export class UserSearchFormComponent implements OnInit, OnDestroy {
                 filter(searchKey => searchKey && searchKey.length > 2),
                 distinctUntilChanged(),
                 debounceTime(600),
-                tap((zap) => {
+                tap(() => {
                     this.userService.isPerformingSearch.next(true);
                     if (this.router.url !== '/podopieczni') {
                         this.router.navigate(['/podopieczni']).then();

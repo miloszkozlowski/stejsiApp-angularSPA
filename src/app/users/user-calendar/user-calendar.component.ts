@@ -169,7 +169,6 @@ export class UserCalendarComponent implements OnInit {
     }
 
     onHourSelected(ind: number) {
-        console.log(ind);
         this.selectedHour = ind;
     }
 

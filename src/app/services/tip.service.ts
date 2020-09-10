@@ -6,8 +6,10 @@ import {Observable, Subject} from 'rxjs';
 import { environment } from '../../environments/environment';
 import {PageModel} from '../models/pagination/page.model';
 import {TipCommentModel} from '../models/tip-comment.model';
+import {tap} from 'rxjs/operators';
 
 const TIPS_PER_PAGE = '10';
+const ENDPOINT = environment.serverPath + '/tips';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +22,7 @@ export class TipService{
     tipLoadError = new Subject<Error>();
     newTipError = new Subject<Error>();
     tipsListLoading = new Subject<boolean>();
+    isNotifyPossibleSbj = new Subject<boolean>();
     tipsListRestart = new Subject();
     newTipButtonVisible = new Subject<boolean>();
     newTipIsPosting = new Subject<boolean>();
@@ -71,7 +74,15 @@ export class TipService{
 
     postNewTip(writeObject: { heading: string; imageUrl: string; uploadedImage: any; body: string }) {
         this.newTipIsPosting.next(true);
-        this.http.post<TipModel>(environment.serverPath + '/tips/add', writeObject).subscribe(resp => {
+        this.http.post<TipModel>(environment.serverPath + '/tips/add', writeObject)
+            .pipe(
+                tap(() => {
+                    this.isNotificationPossible().subscribe(is => {
+                        this.isNotifyPossibleSbj.next(is);
+                    });
+                })
+            )
+            .subscribe(resp => {
             this.newTipPostedId.next(resp.id);
             this.newTipIsPosting.next(false);
         }, error => {
@@ -87,4 +98,13 @@ export class TipService{
     addNewComment(writeObject: {tipId: number; body: string}): Observable<any> {
         return this.http.post<TipCommentModel>(environment.serverPath + '/tips/comments', writeObject);
     }
+
+    isNotificationPossible(): Observable<boolean> {
+        return this.http.get<boolean>(ENDPOINT + '/notifypossible');
+    }
+
+    notifyUsersOnNewPosts(): Observable<any> {
+        return this.http.get(ENDPOINT + '/notifyusers');
+    }
+
 }

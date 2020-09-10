@@ -9,7 +9,6 @@ export class HttpService {
     topErrorBoxString = new Subject<string>();
     handleError(errorResp: HttpErrorResponse): Observable<any> {
         let errorMsg = 'Nieznany błąd. Po prostu spróbuj jeszcze raz.'
-        console.log(errorResp);
         if (errorResp.message) {
             errorMsg = '<strong>Nieoczekiwany błąd: </strong>' + errorResp.message;
         }

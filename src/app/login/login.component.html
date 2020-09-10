@@ -1,30 +1,53 @@
 <div class="row">
-    <div class="col-sm-12 well">
-        <div class="alert alert-danger" *ngIf="errMsg != null">
-            <strong>Uwaga!</strong> {{ errMsg }}
+    <div class="col-12">
+        <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" *ngIf="infoMessage">
+            <div [innerHTML]="infoMessage"></div>
+            <button type="button" class="close" data-dismiss="alert" (click)="infoMessage = null">
+                <span>&times;</span>
+            </button>
         </div>
-        <form>
-            <div class="row">
-                <div class="col-xs-4 form-group"></div>
-                <div class="col-xs-4 form-group">
-                    <label for="username">Użytkownik</label>
-                    <input type="text" id="username" class="form-control" #usernameinput>
-                </div>
+        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" *ngIf="errorMessage">
+            <div [innerHTML]="errorMessage"></div>
+            <button type="button" class="close" data-dismiss="alert" (click)="errorMessage = null">
+                <span>&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-6 offset-3">
+        <h5>Zaloguj się</h5>
+        <small class="text-muted">Logowanie dla trenera personalnego</small>
+        <form class="mt-2" #f=ngForm (ngSubmit)="onLoginSubmit(f)">
+            <div class="form-group">
+                <label for="loginName">Login</label>
+                <input
+                        class="form-control"
+                        type="text"
+                        id="loginName"
+                        name="login"
+                        ngModel
+                        required
+                        minlength="5"
+                >
             </div>
-            <div class="row">
-                <div class="col-xs-4 form-group"></div>
-                <div class="col-xs-4 form-group">
-                    <label for="password">Hasło</label>
-                    <input type="password" id="password" class="form-control" #passwordinput>
-                </div>
+            <div class="form-group">
+                <label for="passwordInput">Login</label>
+                <input
+                        class="form-control"
+                        type="password"
+                        id="passwordInput"
+                        name="password"
+                        ngModel
+                        required
+                        minlength="5"
+                >
             </div>
-            <div class="row">
-                <div class="col-xs-4 form-group"></div>
-                <div class="col-xs-4">
-                    <button class="btn btn-success" type="button" style="margin-right: 5px;" (click) = "onLogin(usernameinput, passwordinput)">Zaloguj</button>
-                </div>
-            </div>
+            <button
+                    class="btn btn-dark"
+                    type="submit"
+                    [disabled]="f.invalid || isLoginIn"
+            >Zaloguj się <span class="spinner-grow spinner-grow-sm" *ngIf="isLoginIn"></span> </button>
         </form>
-
     </div>
 </div>

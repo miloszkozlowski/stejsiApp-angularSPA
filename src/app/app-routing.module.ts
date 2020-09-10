@@ -1,56 +1,22 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {TipsComponent} from './tips/tips.component';
-import {TipItemComponent} from './tips/tip-item/tip-item.component';
-import {TipsStartComponent} from './tips/tips-start/tips-start.component';
-import {NewTipComponent} from './tips/new-tip/new-tip.component';
-import {UsersComponent} from './users/users.component';
-import {NewUserComponent} from './users/new-user/new-user.component';
-import {OfferComponent} from './offer/offer.component';
-import {OfferNewComponent} from './offer/offer-new/offer-new.component';
-import {SettingsComponent} from './settings/settings.component';
-import {SettingsGeneralComponent} from './settings/settings-general/settings-general.component';
-import {SettingsLocationsComponent} from './settings/settings-locations/settings-locations.component';
-import {LocationNewComponent} from './settings/settings-locations/location-new/location-new.component';
-import {UserSelectedComponent} from './users/user-selected/user-selected.component';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {CalendarComponent} from './calendar/calendar.component';
 import {HomeScreenComponent} from './home-screen/home-screen.component';
+import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
-    {path: '', component: HomeScreenComponent, pathMatch: 'full'},
-    {
-        path: 'aktualnosci', component: TipsComponent, children: [
-            {path: '', component: TipsStartComponent},
-            {path: 'nowa', component: NewTipComponent},
-            {path: ':id', component: TipItemComponent}
-        ]
-    },
-    {path: 'podopieczni/nowy', component: NewUserComponent},
-    {
-        path: 'podopieczni', component: UsersComponent, children: [
-            {path: ':id/:imie-naziwsko', component: UserSelectedComponent}
-        ]
-    },
-    {
-        path: 'oferta', component: OfferComponent, children: [
-            {path: 'nowa', component: OfferNewComponent}
-        ]
-    },
-    {
-        path: 'ustawienia', component: SettingsComponent, children: [
-            {path: '', component: SettingsGeneralComponent},
-            {
-                path: 'lokalizacje', component: SettingsLocationsComponent, children: [
-                    {path: 'nowa', component: LocationNewComponent}
-                ]
-            }
-        ]
-    },
+    {path: '', redirectTo: '/home', pathMatch: 'full'},
+    {path: 'login', component: LoginComponent},
+    {path: 'podopieczni', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
+    {path: 'oferta', loadChildren: () => import('./offer/offer.module').then(m => m.OfferModule)},
+    {path: 'ustawienia', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
+    {path: 'aktualnosci', loadChildren: () => import('./tips/tips.module').then(m => m.TipsModule)},
+    {path: 'home', component: HomeScreenComponent},
     {path: 'kalendarz', component: CalendarComponent}
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
     exports: [RouterModule]
 })
 export class AppRoutingModule {

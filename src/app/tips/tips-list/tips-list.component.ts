@@ -1,18 +1,18 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TipModel} from '../../models/tip.model';
 import {TipService} from '../../services/tip.service';
 import {PageableModel} from '../../models/pagination/pageableModel';
 import {PageModel} from '../../models/pagination/page.model';
 
 import {faRedoAlt} from '@fortawesome/free-solid-svg-icons';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-tips-list',
   templateUrl: './tips-list.component.html',
   styleUrls: ['./tips-list.component.css']
 })
-export class TipsListComponent implements OnInit, AfterViewInit {
+export class TipsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   tips: TipModel[];
   pageable: PageableModel;
@@ -25,6 +25,14 @@ export class TipsListComponent implements OnInit, AfterViewInit {
 
   isButtonLoadMoreVisible = true;
   isButtonNewVisible = true;
+  isNotificationPossible = false;
+  isNotificationBeingSent = false;
+
+  isNotificationPossibleSub: Subscription;
+  isNewTipPostedSub: Subscription;
+  isNewTipButtonVisibleSub: Subscription;
+  areTipsListLoadingSub: Subscription;
+  tipLoadErrorSub: Subscription;
 
   @ViewChild('tipScrollingList') private scrollContainer: ElementRef;
 
@@ -36,18 +44,25 @@ export class TipsListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(private service: TipService, private route: ActivatedRoute) { }
+  constructor(private service: TipService) { }
 
   ngOnInit(): void {
-    this.service.newTipPostedId.subscribe(id => {
+    this.isNotificationPossibleSub = this.service.isNotifyPossibleSbj.subscribe(is => {
+      this.isNotificationPossible = is;
+    });
+    this.service.isNotificationPossible().subscribe(is => {
+      console.log(is);
+      this.isNotificationPossible = is;
+    });
+    this.isNewTipPostedSub = this.service.newTipPostedId.subscribe(() => {
       this.tips = [];
       this.reloadTips();
     });
-    this.service.newTipButtonVisible.subscribe(visible => {
+    this.isNewTipButtonVisibleSub = this.service.newTipButtonVisible.subscribe(visible => {
       this.isButtonNewVisible = visible;
     });
 
-    this.service.tipsListLoading.subscribe(isLoading => {
+    this.areTipsListLoadingSub = this.service.tipsListLoading.subscribe(isLoading => {
       this.isLoading = isLoading;
     });
     this.service.newPage.subscribe(page => {
@@ -57,7 +72,7 @@ export class TipsListComponent implements OnInit, AfterViewInit {
 
     });
 
-    this.service.tipLoadError.subscribe(error => {
+    this.tipLoadErrorSub = this.service.tipLoadError.subscribe(error => {
       this.lastError = error;
     });
     if (!this.service.lastLoadedPage) {
@@ -74,6 +89,14 @@ export class TipsListComponent implements OnInit, AfterViewInit {
     this.isButtonLoadMoreVisible = this.scrollableHeight <= element.scrollHeight;
   }
 
+  ngOnDestroy() {
+    this.isNotificationPossibleSub.unsubscribe();
+    this.isNewTipPostedSub.unsubscribe();
+    this.isNewTipButtonVisibleSub.unsubscribe();
+    this.areTipsListLoadingSub.unsubscribe();
+    this.tipLoadErrorSub.unsubscribe();
+  }
+
   loadTips() {
     this.isLoading = true;
     this.service.getTipsPage();
@@ -82,5 +105,15 @@ export class TipsListComponent implements OnInit, AfterViewInit {
   reloadTips() {
     this.service.reloadTipsList();
   }
+
+  onSendNotification() {
+    this.isNotificationBeingSent = true;
+    this.isNotificationPossible = false;
+    this.service.notifyUsersOnNewPosts().subscribe(() => {
+      this.isNotificationBeingSent = false;
+
+    })
+  }
+
 
 }

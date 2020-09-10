@@ -81,7 +81,6 @@ export class PackagesTrainingsService {
         training: TrainingModel,
         trainingData: { dateTime: String, locationId?: number }
     ): Observable<TrainingModel> {
-        console.log(trainingData);
         return this.http.put<TrainingModel>(ENDPOINT_TRAININGS + '/' + training.id, trainingData)
             .pipe(
                 catchError(err => {

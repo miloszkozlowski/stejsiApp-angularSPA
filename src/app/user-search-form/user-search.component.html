@@ -1,0 +1,8 @@
+<div class="mt-1 mb-3 my-lg-0">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"><fa-icon [icon]="faSearch"></fa-icon></span>
+        </div>
+        <input class="form-control" placeholder="Podopieczni..." type="search" [formControl]="searchKeyWord" #inputField (focusout)="tooltipHide()" data-trigger="manual" data-toggle="tooltip" data-placement="bottom" title="Wpisz najmniej 3 znaki aby wyszukać">
+    </div>
+</div>

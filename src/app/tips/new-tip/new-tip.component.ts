@@ -41,8 +41,7 @@ export class NewTipComponent implements OnInit, OnDestroy {
       this.isPosting = isPosting;
     });
     this.service.newTipPostedId.subscribe(id => {
-      this.router.navigate(['../', id], {relativeTo: this.route});
-      console.log('Przekierowanie do id: ' + id);
+      this.router.navigate(['../', id], {relativeTo: this.route}).then();
     });
     this.service.newTipError.subscribe(err => {
 

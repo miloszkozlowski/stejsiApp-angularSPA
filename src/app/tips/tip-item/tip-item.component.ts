@@ -61,7 +61,6 @@ export class TipItemComponent implements OnInit {
           this.loadedTip.imageUrl= this.imageServerPath + this.loadedTip.id;
         }
         this.isLoading = false;
-        console.log(this.loadedTip);
         break;
       }
     }

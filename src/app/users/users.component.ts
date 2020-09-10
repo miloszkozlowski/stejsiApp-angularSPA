@@ -3,7 +3,6 @@ import {UsersService} from '../services/users.service';
 import {UserModel} from '../models/user.model';
 import {Subscription} from 'rxjs';
 import {faSyncAlt} from '@fortawesome/free-solid-svg-icons/faSyncAlt';
-import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
 
 @Component({
     selector: 'app-users',
@@ -14,7 +13,7 @@ import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
     ]
 })
 export class UsersComponent implements OnInit, OnDestroy {
-    isLoading = false;
+    isLoading = true;
     isLastPage = true;
     isSearchInProgress = false;
     isSearchInProgressSub: Subscription;
@@ -97,23 +96,4 @@ export class UsersComponent implements OnInit, OnDestroy {
                 this.isLastPage = this.service.isLastPage;
             }, error => this.errorMessage = error);
     }
-
-    // loadNextUserSlice() {
-    //     this.isLoading = true;
-    //     this.isShowingSearchResults = false;
-    //     this.service.getUsersSlice().subscribe(() => {
-    //         this.isLoading = false;
-    //     }, err => {
-    //         this.isLoading = false;
-    //         this.errorMessage = err;
-    //     });
-    // }
-
-    // onFilterSearchClear() {
-    //     this.loadNextUserSlice();
-    //     this.service.userSearchClearField.next();
-    // }
-
-
-
 }
