@@ -8,7 +8,10 @@ import {forkJoin} from 'rxjs';
 @Component({
     selector: 'app-home-screen',
     templateUrl: './home-screen.component.html',
-    styleUrls: ['./home-screen.component.css']
+    styleUrls: [
+        './home-screen.component.css',
+        './home-screen.component.scss'
+    ]
 })
 export class HomeScreenComponent implements OnInit {
 

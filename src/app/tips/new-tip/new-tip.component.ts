@@ -1,12 +1,13 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {TipService} from '../../services/tip.service';
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 import {ViewportScroller} from '@angular/common';
 import {faGlobe} from '@fortawesome/free-solid-svg-icons/faGlobe';
 import {faLaptop} from '@fortawesome/free-solid-svg-icons/faLaptop';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-new-tip',
@@ -24,6 +25,10 @@ export class NewTipComponent implements OnInit, OnDestroy {
   isPosting = false;
   postedId: number;
   addingTipError: Error;
+  idSub: Subscription;
+  newTipIsPostingSub: Subscription;
+  newTipPostedIdSub: Subscription;
+  routerSub: Subscription;
 
   faGlobe = faGlobe;
   faLaptop = faLaptop;
@@ -37,31 +42,31 @@ export class NewTipComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.service.newTipButtonVisible.next(false);
-    this.service.newTipIsPosting.subscribe(isPosting => {
+    this.newTipIsPostingSub = this.service.newTipIsPosting.subscribe(isPosting => {
       this.isPosting = isPosting;
     });
-    this.service.newTipPostedId.subscribe(id => {
+    this.newTipPostedIdSub = this.service.newTipPostedId.subscribe(id => {
       this.router.navigate(['../', id], {relativeTo: this.route}).then();
     });
-    this.service.newTipError.subscribe(err => {
-
-    })
-    this.router.events
+    this.routerSub = this.router.events
         .pipe(filter(event => event instanceof NavigationEnd))
         .subscribe(() => this.viewportScroller.scrollToPosition([0,0]));
   }
 
   ngOnDestroy() {
     this.service.newTipButtonVisible.next(true);
+    this.newTipIsPostingSub.unsubscribe();
+    this.newTipPostedIdSub.unsubscribe();
+    this.routerSub.unsubscribe();
   }
 
-  onSubmit(submitedForm: NgForm) {
-    if (submitedForm.invalid) {
+  onSubmit(submittedForm: NgForm) {
+    if (submittedForm.invalid) {
       return;
     }
     const writeObject = {
-      'heading': submitedForm.form.value['heading'],
-      'body': submitedForm.form.value['body'],
+      'heading': submittedForm.form.value['heading'],
+      'body': submittedForm.form.value['body'],
       'imageUrl': this.currentImageUrl,
       'uploadedImage': this.uploadedImageUrl
     };

@@ -16,7 +16,7 @@
             <img
                     [alt]="loadedTip.heading"
                     class="card-img-top"
-                    src="{{ loadedTip.imageUrl }}">
+                    [src]="loadedTip.imageUrl | imgAuth | async">
             <div class="card-body">
                 <h5 class="card-title">
                     {{ loadedTip.heading }}

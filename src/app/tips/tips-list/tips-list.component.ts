@@ -51,7 +51,6 @@ export class TipsListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isNotificationPossible = is;
     });
     this.service.isNotificationPossible().subscribe(is => {
-      console.log(is);
       this.isNotificationPossible = is;
     });
     this.isNewTipPostedSub = this.service.newTipPostedId.subscribe(() => {

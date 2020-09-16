@@ -1,0 +1,7 @@
+img {
+    min-height: 100px;
+    background-image: url("/assets/image-loading-big.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #efeff3;
+}

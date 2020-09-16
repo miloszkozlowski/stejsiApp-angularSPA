@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {InfoFlowModel} from '../models/info-flow.model';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {catchError, tap} from 'rxjs/operators';
 import {HttpService} from './http.service';

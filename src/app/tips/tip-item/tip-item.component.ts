@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { TipService } from '../../services/tip.service';
+import {TipService} from '../../services/tip.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {TipModel} from '../../models/tip.model';
-import {faTrash, faEdit, faComment, faRedoAlt} from '@fortawesome/free-solid-svg-icons';
+import {faComment, faEdit, faRedoAlt, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {environment} from '../../../environments/environment';
 import {NgForm} from '@angular/forms';
 import {ViewportScroller} from '@angular/common';

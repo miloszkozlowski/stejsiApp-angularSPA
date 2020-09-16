@@ -1,4 +1,4 @@
-import {Injectable, Output, EventEmitter} from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
@@ -20,9 +20,7 @@ export class LocationService {
     loadedLocations: LocationModel[] = [];
     loadedLocationsSbj = new BehaviorSubject<LocationModel[]>([]);
     topInfoBoxString = new Subject<string>();
-
-    @Output()
-    errorMessage = new EventEmitter<string>();
+    errorMessage = new Subject<string>();
 
 
     constructor(private http: HttpClient, private httpService: HttpService) {

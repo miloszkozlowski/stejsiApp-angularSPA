@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy} from '@angular/core';
 import {LocationService} from '../../../services/location.service';
 import {NgForm} from '@angular/forms';
 import {LocationModel} from '../../../models/location.model';
@@ -22,7 +22,6 @@ export class LocationNewComponent implements AfterViewInit, OnDestroy {
 
     ngAfterViewInit(): void {
         this.service.newLocationButtonVisible.next(false);
-
     }
 
     ngOnDestroy() {
@@ -40,6 +39,7 @@ export class LocationNewComponent implements AfterViewInit, OnDestroy {
             this.router.navigate(['..'], {relativeTo: this.route}).then();
         }, error => {
             this.isPosting = false;
+            this.service.errorMessage.next(error);
         });
     }
 }

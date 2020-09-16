@@ -1,4 +1,4 @@
-import  { SortModel } from './sort.model';
+import {SortModel} from './sort.model';
 
 export class PageableModel {
     sort: SortModel;

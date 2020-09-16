@@ -1,16 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
-    <a class="navbar-brand" routerLink="/">
+    <a class="navbar-brand" [routerLink]="['']">
         <img alt="Stejsi App" class="d-inline-block align-top" height="30" src="assets/stejsi_48.png" width="30">
         StejsiApp
     </a>
-    <button class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+    <button class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button" *ngIf="isAuthenticated">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="navbar" *ngIf="!isAuthenticated">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/login">Logowanie trenera</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="isAuthenticated">
         <ul class="navbar-nav mr-auto">
             <li [routerLinkActiveOptions]="{exact: true}" class="nav-item" routerLinkActive="active">
-                <a class="nav-link" data-target=".navbar-collapse.show" data-toggle="collapse" routerLink="/">Home</a>
+                <a class="nav-link" data-target=".navbar-collapse.show" data-toggle="collapse" routerLink="/home">Home</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" data-target=".navbar-collapse.show" data-toggle="collapse" routerLink="/aktualnosci">Aktualności</a>
@@ -34,6 +42,9 @@
             </li>
             <li class="nav-item" data-target=".navbar-collapse.show" data-toggle="collapse" routerLinkActive="active">
                 <a class="nav-link" routerLink="/ustawienia" tabindex="-1">Ustawienia</a>
+            </li>
+            <li class="nav-item" data-target=".navbar-collapse.show" data-toggle="collapse" routerLinkActive="active">
+                <a class="nav-link" tabindex="-1" (click)="onLogout()"><fa-icon [icon]="faSignOutAlt" class="d-none d-lg-block"></fa-icon><span class="d-block d-lg-none"><fa-icon [icon]="faSignOutAlt" class="mr-2"></fa-icon>Wyloguj się</span></a>
             </li>
         </ul>
         <div class="d-none d-lg-block">

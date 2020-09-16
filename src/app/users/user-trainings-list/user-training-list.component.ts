@@ -9,7 +9,6 @@ import {
     Output,
     QueryList,
     SimpleChanges,
-    ViewChild,
     ViewChildren
 } from '@angular/core';
 import {PackageModel} from '../../models/package.model';

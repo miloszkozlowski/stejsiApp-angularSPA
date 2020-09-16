@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
-import { TipModel } from '../models/tip.model';
+import {TipModel} from '../models/tip.model';
 import {Observable, Subject} from 'rxjs';
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 import {PageModel} from '../models/pagination/page.model';
 import {TipCommentModel} from '../models/tip-comment.model';
 import {tap} from 'rxjs/operators';

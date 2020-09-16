@@ -9,6 +9,7 @@ import {TipsListComponent} from './tips-list/tips-list.component';
 import {TipsListItemComponent} from './tips-list-item/tips-list-item.component';
 import {SharedModule} from '../shared/shared.module';
 import {FormsModule} from '@angular/forms';
+import {ImageLoadPipe} from '../auth/image-load.pipe';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import {FormsModule} from '@angular/forms';
         TipsStartComponent,
         TipsListComponent,
         TipsListItemComponent,
-        NewTipComponent
+        NewTipComponent,
+        ImageLoadPipe
     ],
     imports: [
         CommonModule,

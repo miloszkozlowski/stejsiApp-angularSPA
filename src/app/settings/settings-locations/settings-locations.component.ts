@@ -1,5 +1,4 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {SettingsModel} from '../../models/settings.model';
 import {LocationModel} from '../../models/location.model';
 import {faSyncAlt} from '@fortawesome/free-solid-svg-icons/faSyncAlt';
 import {LocationService} from '../../services/location.service';

@@ -13,7 +13,18 @@ export class HttpService {
             errorMsg = '<strong>Nieoczekiwany błąd: </strong>' + errorResp.message;
         }
         if (errorResp.error) {
-            if(errorResp.error.errorMsg) {
+            // Keycloak responses
+            if(errorResp.error.error) {
+                switch (errorResp.error.error) {
+                    case 'invalid_grant':
+                        errorMsg = '<strong>Błąd logowania:</strong> próba logowania nie powiodła się - spróbuj jeszcze raz';
+                        break;
+                    default:
+                        errorMsg = 'Wystapił nieoczekiwany problem z zabezpieczeniami';
+                }
+            }
+            // all others
+            else if(errorResp.error.errorMsg) {
                 switch (errorResp.error.errorMsg) {
                     case 'CALENDAR_CONFLICT':
                         errorMsg = 'Wybrany termin koliduje z innym w kalendarzu';

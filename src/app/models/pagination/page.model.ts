@@ -1,5 +1,5 @@
-import  { SortModel } from './sort.model';
-import  { PageableModel } from './pageableModel';
+import {SortModel} from './sort.model';
+import {PageableModel} from './pageableModel';
 
 export class PageModel<T> {
     content: Array<T>;

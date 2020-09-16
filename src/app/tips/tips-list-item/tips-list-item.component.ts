@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TipModel} from '../../models/tip.model';
-import {TipService} from '../../services/tip.service';
 import {environment} from '../../../environments/environment';
 
 @Component({

@@ -15,7 +15,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-12 col-md-6 offset-3">
+    <div class="col-12 col-md-6 offset-md-3">
         <h5>Zaloguj się</h5>
         <small class="text-muted">Logowanie dla trenera personalnego</small>
         <form class="mt-2" #f=ngForm (ngSubmit)="onLoginSubmit(f)">
@@ -28,11 +28,11 @@
                         name="login"
                         ngModel
                         required
-                        minlength="5"
+                        minlength="4"
                 >
             </div>
             <div class="form-group">
-                <label for="passwordInput">Login</label>
+                <label for="passwordInput">Hasło</label>
                 <input
                         class="form-control"
                         type="password"

@@ -1,4 +1,3 @@
-import {PackageTypeModel} from './package-type.model';
 import {LocationModel} from './location.model';
 
 export class TrainingModel {

@@ -1,8 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {UserModel} from '../../models/user.model';
 import {PackageModel} from '../../models/package.model';
-import {PackagesTrainingsService} from '../../services/packages-trainings.service';
-declare var $: any
 
 @Component({
     selector: 'app-user-all-packages',
@@ -17,9 +15,7 @@ export class UserAllPackagesComponent implements OnInit {
     modalPack: PackageModel;
     isPaymentLoading = false;
 
-    constructor(
-        private packageService: PackagesTrainingsService
-    ) {}
+    constructor() {}
 
     ngOnInit() {
         this.makePackagesList();
